@@ -20,14 +20,18 @@
 var accessToken = "798f3c94e0ae4083a6949c778af301c3";
 var baseUrl = "https://api.api.ai/v1/";
 
+var checkit;
+
+
 function textEnter() {
     event.preventDefault();
-          send();
+    send();
 }
 
    function onBodyLoad()
     {       
-      document.addEventListener("deviceready", onDeviceReady, false);
+      //document.addEventListener("deviceready", onDeviceReady, false);
+        //fakeMessage();
     }
 
 function messageSubmit() {
@@ -72,7 +76,7 @@ function switchRecognition() {
 
 function setInput(text) {
   $('<div class="message message-personal">' + text + '</div>').appendTo($('.mCSB_container')).addClass('new');
-  setDate();
+  //setDate();
   $('.message-input').val(null);
   updateScrollbar();
   send(text);
@@ -127,13 +131,13 @@ function respond(val) {
     return false;
   }
 
-  $('<div class="message loading new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+  $('<div class="message loading new"><figure class="avatar"><img src="img/tftm.jpeg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
   updateScrollbar();
 
   setTimeout(function() {
     $('.message.loading').remove();
-    $('<div class="message new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure>' + val + '</div>').appendTo($('.mCSB_container')).addClass('new');
-    setDate();
+    $('<div class="message new"><figure class="avatar"><img src="img/tftm.jpeg" /></figure>' + val + '</div>').appendTo($('.mCSB_container')).addClass('new');
+    //setDate();
     updateScrollbar();
   }, 100 + (Math.random() * 20) * 10);
 
@@ -146,7 +150,10 @@ var $messages = $('.messages-content'),
 $(window).load(function() {
   $messages.mCustomScrollbar();
   setTimeout(function() {
+      if(checkit === undefined){ //file never entered. the global var was not set.
+    checkit = 1;
     fakeMessage();
+}
   }, 100);
 });
 
@@ -175,25 +182,36 @@ $(window).on('keydown', function(e) {
 })
 
 var Fake = [
-  'Hi there, I can help you find your fitness class',
+  "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?"
+    /*
+    ,
   'Hello, I can help you find your fitness class',
   'I think you want to be fit, I can assist you with that',
   'Go Gators! how can I help you ?',
   'I just completed the iron marathon, do you want to be fit like me ? I can help you with that '
+  */
 ]
 
 function fakeMessage() {
   if ($('.message-input').val() != '') {
     return false;
   }
-  $('<div class="message loading new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
-  updateScrollbar();
+    
+          var val = Fake[Math.floor(Math.random()*Fake.length)];
+
+    
+/*
+    $('<div class="message loading new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+
+    updateScrollbar();
 
   setTimeout(function() {
     $('.message.loading').remove();
-    $('<div class="message new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure>' + Fake[Math.floor(Math.random()*Fake.length)] + '</div>').appendTo($('.mCSB_container')).addClass('new');
+    $('<div class="message new"><figure class="avatar"><img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80_4.jpg" /></figure>' + val  + '</div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     updateScrollbar();
   }, 100 + (Math.random() * 20) * 10);
+  */  
+    respond(val);
 
 }
