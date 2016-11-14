@@ -182,7 +182,7 @@ $(window).on('keydown', function(e) {
 })
 
 var Fake = [
-  "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?"
+  "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day of the week would you like to see classes for?"
     /*
     ,
   'Hello, I can help you find your fitness class',
