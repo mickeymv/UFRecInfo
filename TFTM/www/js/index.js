@@ -39,11 +39,36 @@ function messageSubmit() {
 }
 
 var recognition;
+
+/**/
+
+ var recognizer = null;
+                
 function startRecognition() {
+    /*
   recognition = new webkitSpeechRecognition();
+  */
+    
+    //speechRecognization interface is the heart of recognization API
+                window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
+
+                if(window.speechRecognition == undefined)
+                {
+                    alert("Speech Recogniztion API Not Supported");
+                }
+                else
+                {
+                    //create a speechRecognization object
+                    recognizer = new speechRecognition();
+
+                    //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
+                    recognizer.continuous = false;
+  
   recognition.onstart = function(event) {
     updateRec();
   };
+                                        //fired everytime user stops speaking.
+                    
   recognition.onresult = function(event) {
     var text = "";
       for (var i = event.resultIndex; i < event.results.length; ++i) {
@@ -52,12 +77,20 @@ function startRecognition() {
       setInput(text);
     stopRecognition();
   };
+                    //fired when recognization is stopped manually or automatically.
+                    
   recognition.onend = function() {
     stopRecognition();
   };
   recognition.lang = "en-US";
   recognition.start();
+                }
+
 }
+
+
+/**/
+
 
 function stopRecognition() {
   if (recognition) {
@@ -125,7 +158,7 @@ function respond(val) {
   msg.voiceURI = "native";
   msg.text = val;
   msg.lang = "en-US";
-    window.speechSynthesis.speak(msg);
+  window.speechSynthesis.speak(msg);
   
   if ($('.message-input').val() != '') {
     return false;
