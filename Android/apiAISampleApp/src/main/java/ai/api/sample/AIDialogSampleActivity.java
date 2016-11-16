@@ -83,9 +83,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 TTS.speak("Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?");
 
                 while (TTS.textToSpeech.isSpeaking()) {
-                    resultTextView.setText("I'm speaking!");
                 }
-                resultTextView.setText("You can speak now!");
                 speakButton.setVisibility(Button.VISIBLE);
                 speakButton.setEnabled(true);
             }

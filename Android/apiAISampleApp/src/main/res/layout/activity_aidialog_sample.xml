@@ -14,7 +14,7 @@
         android:id="@+id/buttonListen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Listen"
+        android:text="Click to Speak"
         android:onClick="buttonListenOnClick"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -26,7 +26,8 @@
         android:id="@+id/resultTextView"
 
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/buttonStart" />
 
     <Button
         android:id="@+id/buttonStart"
