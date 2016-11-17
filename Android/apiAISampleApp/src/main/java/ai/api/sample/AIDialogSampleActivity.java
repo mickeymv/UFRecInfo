@@ -55,6 +55,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private Gson gson = GsonFactory.getGson();
 
+    private final String startMessage = "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?";
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +81,10 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             public void onClick(View v) {
                 startButton.setEnabled(false);
                 startButton.setVisibility(Button.INVISIBLE);
-
-                TTS.speak("Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?");
+                resultTextView.setEnabled(true);
+                resultTextView.setVisibility(Button.VISIBLE);
+                resultTextView.setText("Agent: " + startMessage);
+                TTS.speak(startMessage);
 
                 while (TTS.textToSpeech.isSpeaking()) {
                 }
@@ -117,10 +121,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
 
                 Log.i(TAG, "Action: " + result.getAction());
-                final String speech = result.getFulfillment().getSpeech();
+                String speech = resultTextView.getText().toString();
+                speech += "\n\nAgent: " + result.getFulfillment().getSpeech();
                 Log.i(TAG, "Speech: " + speech);
+
                 resultTextView.setText(speech);
-                TTS.speak(speech);
+                TTS.speak(result.getFulfillment().getSpeech());
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
