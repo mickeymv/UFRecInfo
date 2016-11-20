@@ -36,6 +36,7 @@ import ai.api.AIService;
 import ai.api.AIServiceException;
 import ai.api.PartialResultsListener;
 import ai.api.R;
+import ai.api.RequestExtras;
 import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
@@ -96,6 +97,17 @@ public class AIDialog {
                 resetControls();
                 dialog.show();
                 startListening();
+            }
+        });
+    }
+
+    public void showAndListen(final RequestExtras requestExtras) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                resetControls();
+                dialog.show();
+                startListening(requestExtras);
             }
         });
     }
@@ -166,6 +178,12 @@ public class AIDialog {
     private void startListening() {
         if (aiButton != null) {
             aiButton.startListening();
+        }
+    }
+
+    private void startListening(RequestExtras requestExtras) {
+        if (aiButton != null) {
+            aiButton.startListening(requestExtras);
         }
     }
 

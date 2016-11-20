@@ -31,11 +31,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ai.api.AIConfiguration;
 import ai.api.GsonFactory;
+import ai.api.RequestExtras;
+import ai.api.model.AIContext;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Metadata;
@@ -57,6 +61,18 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private final String startMessage = "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?";
 
+    List<AIContext> contexts = new ArrayList<>();
+    AIContext filterContext = new AIContext("filters");
+    HashMap filters = new HashMap();
+    RequestExtras requestExtras;
+
+    {
+        filterContext.setParameters(filters);
+        contexts.add(filterContext);
+        requestExtras = new RequestExtras(contexts, null);
+    }
+
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +91,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         speakButton = (Button) findViewById(R.id.buttonListen);
         speakButton.setVisibility(Button.INVISIBLE);
         speakButton.setEnabled(false);
+
+
+
+
+        filters.put("day", "Monday");
+
+
+
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +208,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     }
 
     public void buttonListenOnClick(final View view) {
-        aiDialog.showAndListen();
+        aiDialog.showAndListen(requestExtras);
     }
 }
