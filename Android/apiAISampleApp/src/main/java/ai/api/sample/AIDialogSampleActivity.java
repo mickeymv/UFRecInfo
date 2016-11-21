@@ -33,14 +33,17 @@ import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ai.api.AIConfiguration;
 import ai.api.GsonFactory;
 import ai.api.RequestExtras;
 import ai.api.model.AIContext;
 import ai.api.model.AIError;
+import ai.api.model.AIOutputContext;
 import ai.api.model.AIResponse;
 import ai.api.model.Metadata;
 import ai.api.model.Result;
@@ -59,7 +62,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private Gson gson = GsonFactory.getGson();
 
-    private final String startMessage = "Hi! Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?";
+    private final String startMessage = "Hi! "; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
     List<AIContext> contexts = new ArrayList<>();
     AIContext filterContext = new AIContext("filters");
@@ -95,7 +98,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
 
 
-        filters.put("day", "Monday");
+        //filters.put("day", "Monday");
 
 
 
@@ -133,7 +136,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             public void run() {
                 Log.d(TAG, "onResult");
 
-                //resultTextView.setText(gson.toJson(response));
+
 
                 Log.i(TAG, "Received success response");
 
@@ -150,8 +153,30 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 speech += "\n\nAgent: " + result.getFulfillment().getSpeech();
                 Log.i(TAG, "Speech: " + speech);
 
-                resultTextView.setText(speech);
+                //resultTextView.setText(speech);
                 TTS.speak(result.getFulfillment().getSpeech());
+
+                AIOutputContext filterContext = response.getResult().getContext("filters");
+
+                Map parameters = filterContext.getParameters();
+
+                Iterator it = parameters.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    JsonElement value = (JsonElement) pair.getValue();
+                    if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
+                        if(
+                        pair.getKey().toString().charAt(pair.getKey().toString().length()-1) == '2') {
+                            filters.put(pair.getKey().toString().substring(0,pair.getKey().toString().length()-1), pair.getValue());
+                        } else {
+                            filters.put(pair.getKey(), pair.getValue());
+                        }
+                    }
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+
+                resultTextView.setText(result.toString());
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
