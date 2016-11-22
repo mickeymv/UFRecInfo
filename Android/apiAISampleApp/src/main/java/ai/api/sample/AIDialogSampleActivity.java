@@ -67,6 +67,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     List<AIContext> contexts = new ArrayList<>();
     AIContext filterContext = new AIContext("filters");
     HashMap filters = new HashMap();
+    static HashMap previousFilters = new HashMap();
     RequestExtras requestExtras;
 
     {
@@ -107,6 +108,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                filters.clear(); //Clear the context object of previous filters.
+                previousFilters.clear();
                 startButton.setEnabled(false);
                 startButton.setVisibility(Button.INVISIBLE);
                 resultTextView.setEnabled(true);
@@ -160,15 +163,29 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                 Map parameters = filterContext.getParameters();
 
+                filters.clear(); //Clear the context object of previous filters.
+                previousFilters.clear();
+
+                /* For 1. day, replace today, tomorrow,
+                        2. date, replace date
+                        with the correct day of the week.
+                * */
+
                 Iterator it = parameters.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry)it.next();
                     JsonElement value = (JsonElement) pair.getValue();
                     if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
                         if(
+                            /*Set next new context sent with the request with the parameters
+                                receieved from the last API.AI response
+                                 */
                         pair.getKey().toString().charAt(pair.getKey().toString().length()-1) == '2') {
+                            /*Parameter is from previous context ('#' parameter) */
                             filters.put(pair.getKey().toString().substring(0,pair.getKey().toString().length()-1), pair.getValue());
+                            previousFilters.put(pair.getKey().toString().substring(0,pair.getKey().toString().length()-1), pair.getValue());
                         } else {
+                            /*Parameter is from most recent user's utterance ('$' parameter) */
                             filters.put(pair.getKey(), pair.getValue());
                         }
                     }
@@ -201,6 +218,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                /*
+                * */
                 resultTextView.setText(error.toString());
             }
         });
@@ -233,6 +252,9 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     }
 
     public void buttonListenOnClick(final View view) {
+        /*  Send every request with a context.
+        */
+
         aiDialog.showAndListen(requestExtras);
     }
 }
