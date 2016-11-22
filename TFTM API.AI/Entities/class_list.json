@@ -1,0 +1,21 @@
+{
+  "id": "5e28e239-1f25-47af-b960-957be1ad99d2",
+  "name": "class_list",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "ss",
+      "synonyms": [
+        "ss"
+      ]
+    },
+    {
+      "value": "Show me the list of classes",
+      "synonyms": [
+        "Show me the list of classes"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

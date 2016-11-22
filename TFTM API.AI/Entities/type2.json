@@ -1,0 +1,28 @@
+{
+  "id": "fd88faf6-0193-4c20-8249-8ba7e8d5f4ce",
+  "name": "type2",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "Indoor",
+      "synonyms": [
+        "Indoor",
+        "inside",
+        "air-conditioned",
+        "indoors"
+      ]
+    },
+    {
+      "value": "Outdoor",
+      "synonyms": [
+        "Outdoor",
+        "Outside",
+        "sunny",
+        "out in the sun",
+        "outdoors"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

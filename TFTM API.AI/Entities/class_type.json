@@ -1,0 +1,57 @@
+{
+  "id": "065f6c8a-4fe6-43f0-89ce-57d6deafe24f",
+  "name": "class_type",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "cardio",
+      "synonyms": [
+        "cardio",
+        "cardio classes"
+      ]
+    },
+    {
+      "value": "dance",
+      "synonyms": [
+        "dance",
+        "dance classes"
+      ]
+    },
+    {
+      "value": "yoga",
+      "synonyms": [
+        "mind \u0026 body",
+        "mind and body",
+        "mind \u0026 body classes",
+        "mind and body class",
+        "yoga"
+      ]
+    },
+    {
+      "value": "Swimming",
+      "synonyms": [
+        "Swimming"
+      ]
+    },
+    {
+      "value": "Conditioning",
+      "synonyms": [
+        "Conditioning"
+      ]
+    },
+    {
+      "value": "Cycling",
+      "synonyms": [
+        "Cycling"
+      ]
+    },
+    {
+      "value": "Strength",
+      "synonyms": [
+        "Strength"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

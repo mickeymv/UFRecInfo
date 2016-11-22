@@ -1,0 +1,96 @@
+{
+  "id": "6b05f258-3444-480f-a140-6f0a807b72a3",
+  "name": "Day",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "Monday",
+      "synonyms": [
+        "Monday",
+        "Mondays"
+      ]
+    },
+    {
+      "value": "Tuesday",
+      "synonyms": [
+        "Tuesday",
+        "Tuesdays"
+      ]
+    },
+    {
+      "value": "Wednesday",
+      "synonyms": [
+        "Wednesday",
+        "Wednesdays"
+      ]
+    },
+    {
+      "value": "Thursday",
+      "synonyms": [
+        "Thursday",
+        "Thursdays"
+      ]
+    },
+    {
+      "value": "Friday",
+      "synonyms": [
+        "Friday",
+        "Fridays"
+      ]
+    },
+    {
+      "value": "Saturday",
+      "synonyms": [
+        "Saturday",
+        "Saturdays"
+      ]
+    },
+    {
+      "value": "Sunday",
+      "synonyms": [
+        "Sunday",
+        "Sundays"
+      ]
+    },
+    {
+      "value": "Weekend",
+      "synonyms": [
+        "Weekend",
+        "Weekends"
+      ]
+    },
+    {
+      "value": "Weekday",
+      "synonyms": [
+        "Weekday",
+        "Weekdays",
+        "Work days",
+        "Class days",
+        "Business days",
+        "class day",
+        "work day",
+        "business day"
+      ]
+    },
+    {
+      "value": "Today",
+      "synonyms": [
+        "Today"
+      ]
+    },
+    {
+      "value": "Tommorow",
+      "synonyms": [
+        "Tommorow"
+      ]
+    },
+    {
+      "value": "Day after tomorrow",
+      "synonyms": [
+        "Day after tomorrow"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

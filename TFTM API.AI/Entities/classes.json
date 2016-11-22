@@ -1,0 +1,194 @@
+{
+  "id": "7a419db7-f8e9-45b7-a05c-0b86c1e1c804",
+  "name": "classes",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "Hip Hop Fitness",
+      "synonyms": [
+        "Hip Hop Fitness",
+        "Hip hop"
+      ]
+    },
+    {
+      "value": "Zumba",
+      "synonyms": [
+        "Zumba",
+        "Zumba Classes"
+      ]
+    },
+    {
+      "value": "Ballet Strength",
+      "synonyms": [
+        "Ballet Strength",
+        "Ballet"
+      ]
+    },
+    {
+      "value": "Hatha Yoga",
+      "synonyms": [
+        "Hatha Yoga"
+      ]
+    },
+    {
+      "value": "Vinyasa Yoga",
+      "synonyms": [
+        "Vinayasa Yoga",
+        "Vinyasa Yoga"
+      ]
+    },
+    {
+      "value": "Yogalates",
+      "synonyms": [
+        "Yogalates"
+      ]
+    },
+    {
+      "value": "Power Yoga",
+      "synonyms": [
+        "Power Yoga"
+      ]
+    },
+    {
+      "value": "50/50",
+      "synonyms": [
+        "50/50"
+      ]
+    },
+    {
+      "value": "Aqua Zumba",
+      "synonyms": [
+        "Aqua ZUmba"
+      ]
+    },
+    {
+      "value": "Bootcamp",
+      "synonyms": [
+        "Bootcamp"
+      ]
+    },
+    {
+      "value": "BOSU",
+      "synonyms": [
+        "BOSU"
+      ]
+    },
+    {
+      "value": "Coached Swim",
+      "synonyms": [
+        "Coached Swim",
+        "Swim",
+        "Swimming"
+      ]
+    },
+    {
+      "value": "Core",
+      "synonyms": [
+        "Core"
+      ]
+    },
+    {
+      "value": "Cycle",
+      "synonyms": [
+        "Cycle",
+        "Cycling"
+      ]
+    },
+    {
+      "value": "Gator Theory",
+      "synonyms": [
+        "Gator Theory"
+      ]
+    },
+    {
+      "value": "iBurn",
+      "synonyms": [
+        "iBurn"
+      ]
+    },
+    {
+      "value": "Interval Training",
+      "synonyms": [
+        "Interval Training"
+      ]
+    },
+    {
+      "value": "Intervals and Yoga",
+      "synonyms": [
+        "Intervals and Yoga"
+      ]
+    },
+    {
+      "value": "Kickboxing",
+      "synonyms": [
+        "Kickboxing",
+        "Kicking",
+        "Boxing"
+      ]
+    },
+    {
+      "value": "Outdoor Yoga",
+      "synonyms": [
+        "Outdoor Yoga"
+      ]
+    },
+    {
+      "value": "Recovery Yoga",
+      "synonyms": [
+        "Recovery Yoga"
+      ]
+    },
+    {
+      "value": "Stadium Conditioning",
+      "synonyms": [
+        "Stadium Conditioning",
+        "Stadiums"
+      ]
+    },
+    {
+      "value": "Step",
+      "synonyms": [
+        "Step"
+      ]
+    },
+    {
+      "value": "Tai Chi",
+      "synonyms": [
+        "Tai Chi"
+      ]
+    },
+    {
+      "value": "Total Body",
+      "synonyms": [
+        "Total Body"
+      ]
+    },
+    {
+      "value": "ViPR Intervals",
+      "synonyms": [
+        "ViPeR Intervals"
+      ]
+    },
+    {
+      "value": "ViPR Total Body",
+      "synonyms": [
+        "ViPR Total Body",
+        "Viper Body"
+      ]
+    },
+    {
+      "value": "Zumba Step",
+      "synonyms": [
+        "Zumba Step"
+      ]
+    },
+    {
+      "value": "Zumba Toning",
+      "synonyms": [
+        "Zumba Toning"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

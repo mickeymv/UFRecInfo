@@ -1,0 +1,52 @@
+{
+  "id": "8e4b753e-80fb-45c7-9ce8-3af3d44d4a92",
+  "name": "Location",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "Student Rec",
+      "synonyms": [
+        "Student Rec",
+        "SRFC"
+      ]
+    },
+    {
+      "value": "Southwest Rec",
+      "synonyms": [
+        "Southwest Rec",
+        "Southwest recreation",
+        "Southwest rec centre",
+        "Southwest recreation centre"
+      ]
+    },
+    {
+      "value": "Broward Pool",
+      "synonyms": [
+        "Broward Pool",
+        "b pool"
+      ]
+    },
+    {
+      "value": "Maguire Field",
+      "synonyms": [
+        "Maguire Field",
+        "field"
+      ]
+    },
+    {
+      "value": "Florida Pool",
+      "synonyms": [
+        "Florida Pool",
+        "f pool"
+      ]
+    },
+    {
+      "value": "california",
+      "synonyms": [
+        "california"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

@@ -1,0 +1,1377 @@
+{
+  "id": "65f3bcfe-ae2e-4bd8-827d-0757ad828693",
+  "name": "classList",
+  "auto": true,
+  "contexts": [
+    "filters"
+  ],
+  "templates": [
+    "show me the classes on @sys.date:date ",
+    "what are the classes on @sys.date:date ",
+    "What classes does @Instructor:Instructor teach?",
+    "Show me classes taught by @Instructor:Instructor .",
+    "what classes are there @sys.time:time  @Day:day ?",
+    "List the classes on @Day:day ",
+    "Show me @Day:day classes.",
+    "Show me classes on the @Day:day .",
+    "Show me classes on @Day:day .",
+    "Show me classes on @Day:day ",
+    "Show me classes on @Day:day .",
+    "Show me classes on @Day:day .",
+    "Show me classes on @Day:day .",
+    "Show me classes on @Day:day .",
+    "Where can I do @classes:class ?",
+    "Where can I do @class_type:classtype ?",
+    "@type2:type3 ",
+    "@class_type:classtype ",
+    "@duration:duration ",
+    "@Location:Location ",
+    "@TimeOfDay:time-of-day ",
+    "@Day:day ",
+    "@classes:class ",
+    "List the @Day:day classes.",
+    "Get me classes on the @Day:day .",
+    "Give me classes on @Day:day .",
+    "Can I see @TimeOfDay:time-of-day classes?",
+    "What classes are at @TimeOfDay:time-of-day .",
+    "Show me classes that are in the @TimeOfDay:time-of-day .",
+    "Show me @TimeOfDay:time-of-day classes.",
+    "What classes are in the @TimeOfDay:time-of-day ?",
+    "Can I see classes that are @duration:duration ?",
+    "I need a class for @duration:duration .",
+    "What classes are only @duration:duration .",
+    "Display only @type2:type3 classes.",
+    "What classes are @type2:type3 ?",
+    "Show me classes on @Day:day .",
+    "Show me classes that are @type2:type3 .",
+    "I want to see @type2:type3 classes.",
+    "Which classes are @type2:type3 ?",
+    "Show me classes on @Day:day  @TimeOfDay:time-of-day .",
+    "What classes are on @Day:day ?",
+    "Show me @Day:day classes.",
+    "Show me @class_type:classtype classes.",
+    "Show me classes that are @duration:duration long.",
+    "what classes are in the @TimeOfDay:time-of-day ?",
+    "what @class_type:classtype classes are there?",
+    "what classes are only @duration:duration ?",
+    "Show me classes at @Location:Location ",
+    "what are the classes @sys.time-period:time-period ?",
+    "Show me classes @sys.time-period:time-period ",
+    "Show me classes @sys.time-period:time-period ",
+    "Show me classes that start at @sys.time:time ",
+    "Show me classes that start at @sys.time:time ",
+    "@type2:type3  @classes:class classes @Location:Location  @Day:day ",
+    "@type2:type3  @class_type:classtype classes @Location:Location  @Day:day ",
+    "Show me the list of classes",
+    "I want to see some @class_type:classtype classes",
+    "I am interested in some @class_type:classtype classes on @Day:day at @Location:Location center",
+    "Show me list of classes at @Location:Location ",
+    "Show me list of classes on @Day:day "
+  ],
+  "userSays": [
+    {
+      "id": "81722414-1d78-471a-a225-42d639cc5691",
+      "data": [
+        {
+          "text": "show me the classes on "
+        },
+        {
+          "text": "February 3rd",
+          "alias": "date",
+          "meta": "@sys.date",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "1f30ce13-098d-4530-9d9e-e1c87c9f2d32",
+      "data": [
+        {
+          "text": "what are the classes on "
+        },
+        {
+          "text": "November 31st",
+          "alias": "date",
+          "meta": "@sys.date",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "53144154-4909-4361-9d28-a0238fc08e27",
+      "data": [
+        {
+          "text": "What classes does "
+        },
+        {
+          "text": "Kelsie",
+          "alias": "Instructor",
+          "meta": "@Instructor",
+          "userDefined": true
+        },
+        {
+          "text": " teach?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "da4c0e04-fb47-4091-82ab-43c6ecced86a",
+      "data": [
+        {
+          "text": "Show me classes taught by "
+        },
+        {
+          "text": "Sydney",
+          "alias": "Instructor",
+          "meta": "@Instructor",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "5f69137d-5bdf-47c1-89b4-b8c8c813f068",
+      "data": [
+        {
+          "text": "what classes are there "
+        },
+        {
+          "text": "after 3pm",
+          "alias": "time",
+          "meta": "@sys.time",
+          "userDefined": false
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "today",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": false
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "f4bc048d-c752-4e5f-bce2-902f30645820",
+      "data": [
+        {
+          "text": "List the classes on "
+        },
+        {
+          "text": "Monday.",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "b03b3ced-8230-424f-a406-ed702db38962",
+      "data": [
+        {
+          "text": "Show me "
+        },
+        {
+          "text": "weekday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "3f05b86c-9b89-4067-b1a6-1f912063de84",
+      "data": [
+        {
+          "text": "Show me classes on the "
+        },
+        {
+          "text": "weekend",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "f0cc57c7-d03e-4764-bcb8-49e99e26f650",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Sunday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "206e97ac-c023-4fd2-87b6-b76e21fb55ed",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Saturday.",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "0d5215b8-7f55-4c59-9e71-a79a3acefb42",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Thursdays",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "16198117-a5ca-4fc5-b39e-baf3e907f272",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Wednesday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "669ad25a-e78b-4021-86d5-d8a62172717e",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Tuesday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "9016023c-476f-4f72-b740-b8e55c56903e",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Monday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "8e97be70-73d7-4cff-ac2f-9d37d0bff096",
+      "data": [
+        {
+          "text": "Where can I do "
+        },
+        {
+          "text": "core",
+          "alias": "class",
+          "meta": "@classes",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "838596eb-bc4a-4979-9ea4-a449ddb49219",
+      "data": [
+        {
+          "text": "Where can I do "
+        },
+        {
+          "text": "cardio",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "9a6ffaa5-cecd-4ef6-a76a-2705b8095e50",
+      "data": [
+        {
+          "text": "indoor",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "f19c6e61-81d3-47e9-a065-ee4483ee8c90",
+      "data": [
+        {
+          "text": "cardio",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "ec73067c-4896-49d4-a579-7b503ac69a74",
+      "data": [
+        {
+          "text": "thirty minutes",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "93e772e4-8edd-4ee8-aa37-ec612ab61489",
+      "data": [
+        {
+          "text": "Broward Pool",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "2125d788-81f7-43b1-97ac-8d2749579401",
+      "data": [
+        {
+          "text": "evening",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "a4d34730-e496-4e16-97e8-7c9205865293",
+      "data": [
+        {
+          "text": "Monday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "84b70888-dacc-4580-8db9-ab0bb49994e9",
+      "data": [
+        {
+          "text": "Zumba",
+          "alias": "class",
+          "meta": "@classes",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "a3990940-4561-465b-bddb-7833afb5341e",
+      "data": [
+        {
+          "text": "List the "
+        },
+        {
+          "text": "weekday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "edd56df0-ba26-4f2a-b263-e5fde82fcc3f",
+      "data": [
+        {
+          "text": "Get me classes on the "
+        },
+        {
+          "text": "weekends",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "ed8bcc12-7c67-49a0-9ec9-17274d529062",
+      "data": [
+        {
+          "text": "Give me classes on "
+        },
+        {
+          "text": "Friday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "a25ebb25-3269-4c54-ba41-9f8a454d3d6d",
+      "data": [
+        {
+          "text": "Can I see "
+        },
+        {
+          "text": "morning",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": " classes?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "5723dc2e-df0d-4d0c-a59e-25c9a684d4b5",
+      "data": [
+        {
+          "text": "What classes are at "
+        },
+        {
+          "text": "night",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "64ee8232-956f-4366-865c-c5af527e5452",
+      "data": [
+        {
+          "text": "Show me classes that are in the "
+        },
+        {
+          "text": "evening",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "b8f94582-6f16-4b18-8d4a-03a4c8457fdb",
+      "data": [
+        {
+          "text": "Show me "
+        },
+        {
+          "text": "night",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "ebefa03e-374c-4060-91d6-0e5bfcf2a6be",
+      "data": [
+        {
+          "text": "What classes are in the "
+        },
+        {
+          "text": "afternoon",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "6ba026c6-67b4-4526-9f7d-d2731f08d163",
+      "data": [
+        {
+          "text": "Can I see classes that are "
+        },
+        {
+          "text": "30 minutes",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "a4265b76-2ef0-40a6-a652-9fe25a552345",
+      "data": [
+        {
+          "text": "I need a class for "
+        },
+        {
+          "text": "half an hour",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "7167738b-7cb7-48ce-9d68-3d66e1cf02ac",
+      "data": [
+        {
+          "text": "What classes are only "
+        },
+        {
+          "text": "an hour",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "596e1e0e-a045-4690-aa78-fdb828f3a698",
+      "data": [
+        {
+          "text": "Display only "
+        },
+        {
+          "text": "outdoor",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "d9d8c3e3-2a5f-4cf3-9ca7-a5d037e1ef98",
+      "data": [
+        {
+          "text": "What classes are "
+        },
+        {
+          "text": "outdoors",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "d949cf44-48ed-47f2-8fc9-03ae0de17f8e",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Fridays",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "dc171a6f-813f-418b-a7e6-d31d016be644",
+      "data": [
+        {
+          "text": "Show me classes that are "
+        },
+        {
+          "text": "inside",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "39e94a2b-d86e-4497-9087-a1ceb1198da2",
+      "data": [
+        {
+          "text": "I want to see "
+        },
+        {
+          "text": "indoor",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "808a1a12-22a8-4a1d-81de-7ed084a4e18a",
+      "data": [
+        {
+          "text": "Which classes are "
+        },
+        {
+          "text": "outside",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "904aedf7-5054-4c7c-a350-be73a15f4124",
+      "data": [
+        {
+          "text": "Show me classes on "
+        },
+        {
+          "text": "Sunday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "morning",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "06a9e001-69f8-44ee-b5aa-17b5a0383974",
+      "data": [
+        {
+          "text": "What classes are on "
+        },
+        {
+          "text": "Friday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "476e7961-1d2b-46b6-9441-c324e54e002c",
+      "data": [
+        {
+          "text": "Show me "
+        },
+        {
+          "text": "Tuesday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "2b3f8e83-00a4-4190-b045-1cd76b143944",
+      "data": [
+        {
+          "text": "Show me "
+        },
+        {
+          "text": "cardio",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        },
+        {
+          "text": " classes."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "06682722-5e9d-4bbf-86e9-cada35713bc3",
+      "data": [
+        {
+          "text": "Show me classes that are "
+        },
+        {
+          "text": "45 minutes",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": true
+        },
+        {
+          "text": " long."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "33ca64b1-7e21-4ad5-9388-bf1803f36fe6",
+      "data": [
+        {
+          "text": "what classes are in the "
+        },
+        {
+          "text": "morning",
+          "alias": "time-of-day",
+          "meta": "@TimeOfDay",
+          "userDefined": true
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "a5bdae93-f594-4c48-a5ec-dfb6bf66bd24",
+      "data": [
+        {
+          "text": "what "
+        },
+        {
+          "text": "yoga",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        },
+        {
+          "text": " classes are there?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "c7acb41a-113f-4e21-8156-f3b7e215a6e6",
+      "data": [
+        {
+          "text": "what classes are only "
+        },
+        {
+          "text": "thirty minutes",
+          "alias": "duration",
+          "meta": "@duration",
+          "userDefined": false
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "9b8a84da-b39e-4708-b6a5-7d4bf5046777",
+      "data": [
+        {
+          "text": "Show me classes at "
+        },
+        {
+          "text": "Broward Pool",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "6b51fd50-54f4-479d-a1ff-649f40454995",
+      "data": [
+        {
+          "text": "what are the classes "
+        },
+        {
+          "text": "before 10 am",
+          "alias": "time-period",
+          "meta": "@sys.time-period",
+          "userDefined": false
+        },
+        {
+          "text": "?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 1
+    },
+    {
+      "id": "7dcd1eca-0363-4915-b492-5df2d7857282",
+      "data": [
+        {
+          "text": "Show me classes "
+        },
+        {
+          "text": "after 5pm",
+          "alias": "time-period",
+          "meta": "@sys.time-period",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "570da90f-b225-4a5a-8a42-aa2bb407e45d",
+      "data": [
+        {
+          "text": "Show me classes "
+        },
+        {
+          "text": "between 3pm and 6pm",
+          "alias": "time-period",
+          "meta": "@sys.time-period",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 2
+    },
+    {
+      "id": "7ea1655e-c2ba-4bec-b4b1-96676fc77b0e",
+      "data": [
+        {
+          "text": "Show me classes that start at "
+        },
+        {
+          "text": "10am",
+          "alias": "time",
+          "meta": "@sys.time",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "33df52af-118d-46f9-8878-4a7d6d2139c6",
+      "data": [
+        {
+          "text": "Show me classes that start at "
+        },
+        {
+          "text": "10",
+          "alias": "time",
+          "meta": "@sys.time",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "553926b0-d551-4e73-acc2-6c0e24cc96db",
+      "data": [
+        {
+          "text": "outdoor",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": false
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "cycling",
+          "alias": "class",
+          "meta": "@classes",
+          "userDefined": false
+        },
+        {
+          "text": " classes "
+        },
+        {
+          "text": "Broward Pool",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": false
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "Thursday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "9c00e31a-3180-41c9-b386-becccb24b748",
+      "data": [
+        {
+          "text": "indoor",
+          "alias": "type3",
+          "meta": "@type2",
+          "userDefined": false
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "yoga",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": false
+        },
+        {
+          "text": " classes "
+        },
+        {
+          "text": "Southwest Rec",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": false
+        },
+        {
+          "text": " "
+        },
+        {
+          "text": "Tuesday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "e4d2e74d-ed75-4bf7-b544-a145ff84d3d9",
+      "data": [
+        {
+          "text": "Show me the list "
+        },
+        {
+          "text": "of",
+          "meta": "@sys.ignore",
+          "userDefined": true
+        },
+        {
+          "text": " classes"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "450bb71a-1132-48d0-b481-2b92f0c638b1",
+      "data": [
+        {
+          "text": "I want to see some "
+        },
+        {
+          "text": "mind \u0026 body",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        },
+        {
+          "text": " classes"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "99fe0587-90fc-4ea0-adfc-b38bdb973442",
+      "data": [
+        {
+          "text": "I am interested in some "
+        },
+        {
+          "text": "Dance",
+          "alias": "classtype",
+          "meta": "@class_type",
+          "userDefined": true
+        },
+        {
+          "text": " classes on "
+        },
+        {
+          "text": "wednesdays",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        },
+        {
+          "text": " at "
+        },
+        {
+          "text": "Southwest recreation",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": true
+        },
+        {
+          "text": " center"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "21b38685-4ff8-46f3-b5ef-be4e9af6d5ca",
+      "data": [
+        {
+          "text": "Show me list of classes at "
+        },
+        {
+          "text": "Southwest Rec",
+          "alias": "Location",
+          "meta": "@Location",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    },
+    {
+      "id": "9abaddc6-c7c5-4fd8-b083-e8d7f7ea6e7c",
+      "data": [
+        {
+          "text": "Show me list of classes on "
+        },
+        {
+          "text": "friday",
+          "alias": "day",
+          "meta": "@Day",
+          "userDefined": true
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    }
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [
+        {
+          "name": "filters",
+          "lifespan": 1
+        }
+      ],
+      "parameters": [
+        {
+          "dataType": "@sys.time",
+          "name": "time",
+          "value": "$time",
+          "isList": false
+        },
+        {
+          "dataType": "@sys.time-period",
+          "name": "time-period",
+          "value": "$time-period",
+          "isList": false
+        },
+        {
+          "dataType": "@type2",
+          "name": "type3",
+          "value": "$type3",
+          "isList": true
+        },
+        {
+          "dataType": "@duration",
+          "name": "duration",
+          "value": "$duration"
+        },
+        {
+          "required": false,
+          "dataType": "@Location",
+          "name": "Location",
+          "value": "$Location",
+          "prompts": [],
+          "isList": false
+        },
+        {
+          "dataType": "@class_type",
+          "name": "classtype",
+          "value": "$classtype"
+        },
+        {
+          "required": false,
+          "dataType": "@Day",
+          "name": "day",
+          "value": "$day",
+          "isList": false
+        },
+        {
+          "dataType": "@TimeOfDay",
+          "name": "time-of-day",
+          "value": "$time-of-day"
+        },
+        {
+          "dataType": "@classes",
+          "name": "class",
+          "value": "$class"
+        },
+        {
+          "name": "day2",
+          "value": "#filters.day"
+        },
+        {
+          "name": "location2",
+          "value": "#filters.location"
+        },
+        {
+          "name": "classtype2",
+          "value": "#filters.classtype"
+        },
+        {
+          "name": "class2",
+          "value": "#filters.class"
+        },
+        {
+          "name": "type32",
+          "value": "#filters.type3"
+        },
+        {
+          "dataType": "@Instructor",
+          "name": "Instructor",
+          "value": "$Instructor"
+        },
+        {
+          "dataType": "@sys.date",
+          "name": "date",
+          "value": "$date",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "speech": [
+            "Showing you the list of classes on $day at $location",
+            "Showing you the list of classes at $location",
+            "Showing you classes on $day",
+            "Here are some $class classes you might be interested in",
+            "Showing you $time-of-day classes",
+            "Here is a list of $class classes you might be interested in",
+            "Here are some $classtype classes you might be interested in",
+            "Here are the classes at $time",
+            "Here are some classes from $time-period",
+            "Showing classes that are $type3",
+            "Showing you classes which are $duration long",
+            "Showing you $classtype classes on $day",
+            "Showing you $class classes on $day",
+            "Showing you $classtype classes on $day at $Location",
+            "Showing you $class classes on $day at $Location",
+            "Showing you $class classes on $day $time-of-day",
+            "Showing you $classtype classes on $day $time-of-day",
+            "Showing you $class classes on $day $time-of-day at $location",
+            "Showing you $classtype classes on $day $time-of-day at $location",
+            "Here are the $classtype classes on #filters.day",
+            "Showing you #filters.classtype classes on $day",
+            "Showing you #filters.class classes on $day",
+            "Showing you $class classes on #filters.day",
+            "Here are the classes on #filters.day at $Location",
+            "Showing you $class classes on #filters.day at #filters.Location",
+            "Showing you $type3 classes on $day",
+            "Okay, here are some $classtype classes at $Location",
+            "Okay, here are some $class classes at $Location",
+            "Okay, here are some $type3 classes at $Location",
+            "Okay, here are some $type3 $classtype classes",
+            "Okay, here are some $type3 $class classes",
+            "Okay, here are some $type3 $classtype classes at $Location",
+            "Okay, here are some $type3 $class classes on $day at $Location",
+            "Okay, here are some $type3 $classtype classes on $day at $Location",
+            "Here are the classes taught by $Instructor",
+            "Here\u0027s the classes that I found on $date"
+          ]
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "fallbackIntent": false
+}

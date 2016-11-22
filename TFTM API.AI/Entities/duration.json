@@ -1,0 +1,43 @@
+{
+  "id": "b86ca910-2033-4613-a891-75b1e0394a30",
+  "name": "duration",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "30 minutes",
+      "synonyms": [
+        "30 minutes",
+        "half an hour"
+      ]
+    },
+    {
+      "value": "60 minutes",
+      "synonyms": [
+        "60 minutes",
+        "an hour",
+        "one hour"
+      ]
+    },
+    {
+      "value": "45 minutes",
+      "synonyms": [
+        "45 minutes"
+      ]
+    },
+    {
+      "value": "75 minutes",
+      "synonyms": [
+        "75 minutes",
+        "an hour and fifteen"
+      ]
+    },
+    {
+      "value": "thirty minutes",
+      "synonyms": [
+        "thirty minutes"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

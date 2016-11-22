@@ -1,0 +1,33 @@
+{
+  "id": "cab21e4c-41ae-4772-a084-7b8ffc8bdfa9",
+  "name": "TimeOfDay",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "Morning",
+      "synonyms": [
+        "Morning"
+      ]
+    },
+    {
+      "value": "Evening",
+      "synonyms": [
+        "Evening"
+      ]
+    },
+    {
+      "value": "Afternoon",
+      "synonyms": [
+        "Afternoon"
+      ]
+    },
+    {
+      "value": "Night",
+      "synonyms": [
+        "Night"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}

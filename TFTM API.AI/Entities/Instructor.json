@@ -1,0 +1,503 @@
+{
+  "id": "7b615925-6bf7-4f37-b770-2f8ed1cc536a",
+  "name": "Instructor",
+  "isOverridable": true,
+  "entries": [
+    {
+      "value": "KJ",
+      "synonyms": [
+        "KJ"
+      ]
+    },
+    {
+      "value": "Kelsey G.",
+      "synonyms": [
+        "Kelsey G.",
+        "Kelsey"
+      ]
+    },
+    {
+      "value": "Sydney F.",
+      "synonyms": [
+        "Sydney F.",
+        "Sydney"
+      ]
+    },
+    {
+      "value": "Sydney S.",
+      "synonyms": [
+        "Sydney S.",
+        "Sydney"
+      ]
+    },
+    {
+      "value": "Abby D.",
+      "synonyms": [
+        "Abby D.",
+        "Abby"
+      ]
+    },
+    {
+      "value": "Abby G.",
+      "synonyms": [
+        "Abby G.",
+        "Abby"
+      ]
+    },
+    {
+      "value": "Alayna",
+      "synonyms": [
+        "Alayna"
+      ]
+    },
+    {
+      "value": "Ali",
+      "synonyms": [
+        "Ali"
+      ]
+    },
+    {
+      "value": "Alicia",
+      "synonyms": [
+        "Alicia"
+      ]
+    },
+    {
+      "value": "Alivia",
+      "synonyms": [
+        "Alivia"
+      ]
+    },
+    {
+      "value": "Allie",
+      "synonyms": [
+        "Allie"
+      ]
+    },
+    {
+      "value": "Amita",
+      "synonyms": [
+        "Amita"
+      ]
+    },
+    {
+      "value": "Ariel",
+      "synonyms": [
+        "Ariel"
+      ]
+    },
+    {
+      "value": "Becca",
+      "synonyms": [
+        "Becca"
+      ]
+    },
+    {
+      "value": "Bryan",
+      "synonyms": [
+        "Bryan"
+      ]
+    },
+    {
+      "value": "Caline",
+      "synonyms": [
+        "Caline"
+      ]
+    },
+    {
+      "value": "Callean",
+      "synonyms": [
+        "Callean"
+      ]
+    },
+    {
+      "value": "Caroline",
+      "synonyms": [
+        "Caroline"
+      ]
+    },
+    {
+      "value": "Carrie",
+      "synonyms": [
+        "Carrie"
+      ]
+    },
+    {
+      "value": "CieCie",
+      "synonyms": [
+        "CieCie"
+      ]
+    },
+    {
+      "value": "Courtney",
+      "synonyms": [
+        "Courtney"
+      ]
+    },
+    {
+      "value": "Daniela M.",
+      "synonyms": [
+        "Daniela M.",
+        "Daniela"
+      ]
+    },
+    {
+      "value": "Darcie",
+      "synonyms": [
+        "Darcie"
+      ]
+    },
+    {
+      "value": "Drue",
+      "synonyms": [
+        "Drue"
+      ]
+    },
+    {
+      "value": "Elizabeth",
+      "synonyms": [
+        "Elizabeth"
+      ]
+    },
+    {
+      "value": "Ellie",
+      "synonyms": [
+        "Ellie"
+      ]
+    },
+    {
+      "value": "Emily F.",
+      "synonyms": [
+        "Emily F."
+      ]
+    },
+    {
+      "value": "Emma",
+      "synonyms": [
+        "Emma"
+      ]
+    },
+    {
+      "value": "Erin",
+      "synonyms": [
+        "Erin"
+      ]
+    },
+    {
+      "value": "Franco",
+      "synonyms": [
+        "Franco"
+      ]
+    },
+    {
+      "value": "Gail",
+      "synonyms": [
+        "Gail"
+      ]
+    },
+    {
+      "value": "Giselle",
+      "synonyms": [
+        "Giselle"
+      ]
+    },
+    {
+      "value": "Hannah B.",
+      "synonyms": [
+        "Hannah B.",
+        "Hannah"
+      ]
+    },
+    {
+      "value": "Hannah H.",
+      "synonyms": [
+        "Hannah H.",
+        "Hannah"
+      ]
+    },
+    {
+      "value": "Janke",
+      "synonyms": [
+        "Janke"
+      ]
+    },
+    {
+      "value": "Jenn R.",
+      "synonyms": [
+        "Jenn R.",
+        "Jenn"
+      ]
+    },
+    {
+      "value": "Kaley",
+      "synonyms": [
+        "Kaley"
+      ]
+    },
+    {
+      "value": "Karah",
+      "synonyms": [
+        "Karah"
+      ]
+    },
+    {
+      "value": "Katelynn",
+      "synonyms": [
+        "Katelynn"
+      ]
+    },
+    {
+      "value": "Katie G.",
+      "synonyms": [
+        "Katie G.",
+        "Katie"
+      ]
+    },
+    {
+      "value": "Kayla",
+      "synonyms": [
+        "Kayla"
+      ]
+    },
+    {
+      "value": "Kelly",
+      "synonyms": [
+        "Kelly"
+      ]
+    },
+    {
+      "value": "Kelsie",
+      "synonyms": [
+        "Kelsie"
+      ]
+    },
+    {
+      "value": "Kevin",
+      "synonyms": [
+        "Kevin"
+      ]
+    },
+    {
+      "value": "Kimmy",
+      "synonyms": [
+        "Kimmy"
+      ]
+    },
+    {
+      "value": "Kristen",
+      "synonyms": [
+        "Kristen"
+      ]
+    },
+    {
+      "value": "Kristin P.",
+      "synonyms": [
+        "Kristin P.",
+        "Kristin"
+      ]
+    },
+    {
+      "value": "Lauren",
+      "synonyms": [
+        "Lauren"
+      ]
+    },
+    {
+      "value": "Leslie",
+      "synonyms": [
+        "Leslie"
+      ]
+    },
+    {
+      "value": "Lindsey",
+      "synonyms": [
+        "Lindsey"
+      ]
+    },
+    {
+      "value": "Lisa L.",
+      "synonyms": [
+        "Lisa L.",
+        "Lisa"
+      ]
+    },
+    {
+      "value": "Lisa-Nicole",
+      "synonyms": [
+        "Lisa-Nicole"
+      ]
+    },
+    {
+      "value": "Lizzie",
+      "synonyms": [
+        "Lizzie"
+      ]
+    },
+    {
+      "value": "Margaret Ann",
+      "synonyms": [
+        "Margaret Ann"
+      ]
+    },
+    {
+      "value": "Mariale",
+      "synonyms": [
+        "Mariale"
+      ]
+    },
+    {
+      "value": "Marissa",
+      "synonyms": [
+        "Marissa"
+      ]
+    },
+    {
+      "value": "Melissa",
+      "synonyms": [
+        "Melissa"
+      ]
+    },
+    {
+      "value": "Michael H.",
+      "synonyms": [
+        "Michael H.",
+        "Michael"
+      ]
+    },
+    {
+      "value": "Michelle",
+      "synonyms": [
+        "Michelle"
+      ]
+    },
+    {
+      "value": "Milan",
+      "synonyms": [
+        "Milan"
+      ]
+    },
+    {
+      "value": "Mina",
+      "synonyms": [
+        "Mina"
+      ]
+    },
+    {
+      "value": "Morgan",
+      "synonyms": [
+        "Morgan"
+      ]
+    },
+    {
+      "value": "Natalie Acevedo",
+      "synonyms": [
+        "Natalie Acevedo",
+        "Natalie"
+      ]
+    },
+    {
+      "value": "Natalie Anthony",
+      "synonyms": [
+        "Natalie Anthony",
+        "Natalie"
+      ]
+    },
+    {
+      "value": "Olivia N.",
+      "synonyms": [
+        "Olivia N.",
+        "Olivia"
+      ]
+    },
+    {
+      "value": "Olivia T.",
+      "synonyms": [
+        "Olivia T.",
+        "Olivia"
+      ]
+    },
+    {
+      "value": "Rachael",
+      "synonyms": [
+        "Rachael"
+      ]
+    },
+    {
+      "value": "Rachel",
+      "synonyms": [
+        "Rachel"
+      ]
+    },
+    {
+      "value": "Rachel C.",
+      "synonyms": [
+        "Rachel C.",
+        "Rachel"
+      ]
+    },
+    {
+      "value": "Rachel R.",
+      "synonyms": [
+        "Rachel R.",
+        "Rachel"
+      ]
+    },
+    {
+      "value": "Rachel Z.",
+      "synonyms": [
+        "Rachel Z."
+      ]
+    },
+    {
+      "value": "Richard",
+      "synonyms": [
+        "Richard"
+      ]
+    },
+    {
+      "value": "Sam K.",
+      "synonyms": [
+        "Sam K.",
+        "Sam"
+      ]
+    },
+    {
+      "value": "Saneh",
+      "synonyms": [
+        "Saneh"
+      ]
+    },
+    {
+      "value": "Tori",
+      "synonyms": [
+        "Tori"
+      ]
+    },
+    {
+      "value": "Valerie",
+      "synonyms": [
+        "Valerie"
+      ]
+    },
+    {
+      "value": "Will",
+      "synonyms": [
+        "Will"
+      ]
+    },
+    {
+      "value": "Sheridan",
+      "synonyms": [
+        "Sheridan"
+      ]
+    },
+    {
+      "value": "Myk",
+      "synonyms": [
+        "Myk"
+      ]
+    }
+  ],
+  "isEnum": false,
+  "automatedExpansion": false
+}
