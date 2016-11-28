@@ -30,7 +30,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,6 +65,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private Gson gson = GsonFactory.getGson();
 
+    ArrayList<FitnessClass> classList = new ArrayList<>();
+
     private final String startMessage = "Hi! "; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
     List<AIContext> contexts = new ArrayList<>();
@@ -74,8 +79,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         filterContext.setParameters(filters);
         contexts.add(filterContext);
         requestExtras = new RequestExtras(contexts, null);
+        loadJSONFromAsset();
     }
-
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -95,15 +100,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         speakButton = (Button) findViewById(R.id.buttonListen);
         speakButton.setVisibility(Button.INVISIBLE);
         speakButton.setEnabled(false);
-
-
-
-
-        //filters.put("day", "Monday");
-
-
-
-
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +133,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
+                ArrayList<FitnessClass> filteredList = new ArrayList<>();
                 Log.d(TAG, "onResult");
 
 
@@ -193,7 +191,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
-                resultTextView.setText(result.toString());
+                resultTextView.setText(classList.toString());
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
@@ -256,5 +254,24 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         */
 
         aiDialog.showAndListen(requestExtras);
+    }
+
+    public void loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("classes.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            classList = gson.fromJson(json, new TypeToken<List<FitnessClass>>(){}.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
