@@ -79,7 +79,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         filterContext.setParameters(filters);
         contexts.add(filterContext);
         requestExtras = new RequestExtras(contexts, null);
-        loadJSONFromAsset();
     }
 
     @Override
@@ -119,7 +118,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 speakButton.setEnabled(true);
             }
         });
-
+        loadJSONFromAsset();
     }
 
     /*
@@ -191,7 +190,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
-                resultTextView.setText(classList.toString());
+                /*
+                day-> Day
+                class-> Name
+                 */
+
+                resultTextView.setText(filteredList.toString());
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
