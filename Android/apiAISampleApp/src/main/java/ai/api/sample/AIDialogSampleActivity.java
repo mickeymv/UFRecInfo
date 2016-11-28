@@ -158,17 +158,19 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                 AIOutputContext filterContext = response.getResult().getContext("filters");
 
+                /*
+                * TODO: Switch here to check if the response is for classes or from the help intent
+                * */
+
                 Map parameters = filterContext.getParameters();
 
                 filters.clear(); //Clear the context object of previous filters.
                 previousFilters.clear();
 
-                /* For 1. day, replace today, tomorrow,
-                        2. date, replace date
-                        with the correct day of the week.
-                * */
+
 
                 Iterator it = parameters.entrySet().iterator();
+                String keyValue;
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry)it.next();
                     JsonElement value = (JsonElement) pair.getValue();
@@ -179,8 +181,9 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                  */
                         pair.getKey().toString().charAt(pair.getKey().toString().length()-1) == '2') {
                             /*Parameter is from previous context ('#' parameter) */
-                            filters.put(pair.getKey().toString().substring(0,pair.getKey().toString().length()-1), pair.getValue());
-                            previousFilters.put(pair.getKey().toString().substring(0,pair.getKey().toString().length()-1), pair.getValue());
+                            keyValue = pair.getKey().toString().substring(0,pair.getKey().toString().length()-1);
+                            filters.put(keyValue, pair.getValue());
+                            previousFilters.put(keyValue, pair.getValue());
                         } else {
                             /*Parameter is from most recent user's utterance ('$' parameter) */
                             filters.put(pair.getKey(), pair.getValue());
@@ -190,10 +193,48 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
-                /*
+                                /*
                 day-> Day
                 class-> Name
                  */
+
+
+
+                                /* For 1. day, replace today, tomorrow, weekend, etc.
+                        2. date, replace date
+                        with the correct day of the week.
+                * */
+
+                boolean satisfiesAllFilters;
+                for (FitnessClass fitnessClass: classList) {
+                    satisfiesAllFilters = true;
+                    it = filters.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry)it.next();
+                        String filter = (String) pair.getKey();
+                        JsonElement filterValue = (JsonElement) pair.getValue();
+                        if (filter.equals("day")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getDay()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        } else if (filter.equals("class")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(satisfiesAllFilters) {
+                        filteredList.add(fitnessClass);
+                    }
+                }
+
+
+
+                                /*
+                * TODO: Switch here to show classes or help intent
+                * */
 
                 resultTextView.setText(filteredList.toString());
 

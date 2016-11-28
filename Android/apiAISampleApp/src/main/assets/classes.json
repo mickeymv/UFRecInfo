@@ -547,7 +547,7 @@
  },
  {
    "Entry": 123,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Saturday",
@@ -557,11 +557,11 @@
    "Venue": "Southwest Rec",
    "Instructor": "Milan",
    "Room": "SW 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 32,
-   "Name": "ViPR® Total Body",
+   "Name": "ViPR Total Body",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Tuesday",
@@ -981,7 +981,7 @@
  },
  {
    "Entry": 54,
-   "Name": "ViPR® Intervals",
+   "Name": "ViPR Intervals",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Friday",
@@ -995,7 +995,7 @@
  },
  {
    "Entry": 51,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Tuesday",
@@ -1005,7 +1005,7 @@
    "Venue": "Student Rec",
    "Instructor": "Bryan",
    "Room": "SR 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 133,
@@ -1051,7 +1051,7 @@
  },
  {
    "Entry": 131,
-   "Name": "ViPR® Intervals",
+   "Name": "ViPR Intervals",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Monday",
@@ -1233,7 +1233,7 @@
  },
  {
    "Entry": 66,
-   "Name": "BOSU®",
+   "Name": "BOSU",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Tuesday",
@@ -1243,7 +1243,7 @@
    "Venue": "Student Rec",
    "Instructor": "Michelle",
    "Room": "SR 2",
-   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU® incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
+   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
  },
  {
    "Entry": 67,
@@ -1303,7 +1303,7 @@
  },
  {
    "Entry": 70,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Friday",
@@ -1313,7 +1313,7 @@
    "Venue": "Student Rec",
    "Instructor": "Bryan",
    "Room": "SR 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 73,
@@ -1331,7 +1331,7 @@
  },
  {
    "Entry": 9,
-   "Name": "Aqua Zumba®",
+   "Name": "Aqua Zumba",
    "Type": "Swimming",
    "Type_2": "Outdoor",
    "Day": "Monday",
@@ -1341,7 +1341,7 @@
    "Venue": "Broward Pool",
    "Instructor": "Marissa",
    "Room": "N/A",
-   "Description": "Known as the Zumba® \"pool party,\" Aqua Zumba® gives new meaning to the idea of an invigorating workout. Splashing, stretching and twisting, Aqua Zumba® blends together a safe, challenging, water-based workout that’s cardio-conditioning, body-toning, and most of all, exhilarating beyond belief. PLEASE NOTE: YOU MUST BRING YOUR GATOR1 CARD TO THIS CLASS. If possible, please come dressed ready to participate in the pool."
+   "Description": "Known as the Zumba \"pool party,\" Aqua Zumba gives new meaning to the idea of an invigorating workout. Splashing, stretching and twisting, Aqua Zumba blends together a safe, challenging, water-based workout that’s cardio-conditioning, body-toning, and most of all, exhilarating beyond belief. PLEASE NOTE: YOU MUST BRING YOUR GATOR1 CARD TO THIS CLASS. If possible, please come dressed ready to participate in the pool."
  },
  {
    "Entry": 138,
@@ -1457,7 +1457,7 @@
  },
  {
    "Entry": 141,
-   "Name": "Zumba® Toning",
+   "Name": "Zumba Toning",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Thursday",
@@ -1467,7 +1467,7 @@
    "Venue": "Southwest Rec",
    "Instructor": "CieCie",
    "Room": "SW 1",
-   "Description": "When it comes to body sculpting, Zumba® Toning raises the bar (or rather, the toning stick). Learn how to use lightweight, Toning Sticks to enhance rhythm and while strengthening your body."
+   "Description": "When it comes to body sculpting, Zumba Toning raises the bar (or rather, the toning stick). Learn how to use lightweight, Toning Sticks to enhance rhythm and while strengthening your body."
  },
  {
    "Entry": 145,
@@ -1821,7 +1821,7 @@
  },
  {
    "Entry": 87,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Thursday",
@@ -1831,11 +1831,11 @@
    "Venue": "Student Rec",
    "Instructor": "Erin",
    "Room": "SR 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 85,
-   "Name": "Zumba® Toning",
+   "Name": "Zumba Toning",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Tuesday",
@@ -1845,7 +1845,7 @@
    "Venue": "Student Rec",
    "Instructor": "Sam K.",
    "Room": "SR 3",
-   "Description": "When it comes to body sculpting, Zumba® Toning raises the bar (or rather, the toning stick). Learn how to use lightweight, Toning Sticks to enhance rhythm and while strengthening your body."
+   "Description": "When it comes to body sculpting, Zumba Toning raises the bar (or rather, the toning stick). Learn how to use lightweight, Toning Sticks to enhance rhythm and while strengthening your body."
  },
  {
    "Entry": 151,
@@ -1947,7 +1947,7 @@
  },
  {
    "Entry": 152,
-   "Name": "Zumba® Step",
+   "Name": "Zumba Step",
    "Type": "Cardio",
    "Type_2": "Indoor",
    "Day": "Wednesday",
@@ -2045,7 +2045,7 @@
  },
  {
    "Entry": 94,
-   "Name": "BOSU®",
+   "Name": "BOSU",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Monday",
@@ -2055,7 +2055,7 @@
    "Venue": "Student Rec",
    "Instructor": "Michelle",
    "Room": "SR 3",
-   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU® incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
+   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
  },
  {
    "Entry": 95,
@@ -2101,7 +2101,7 @@
  },
  {
    "Entry": 160,
-   "Name": "BOSU®",
+   "Name": "BOSU",
    "Type": "Strength",
    "Type_2": "Indoor",
    "Day": "Wednesday",
@@ -2111,7 +2111,7 @@
    "Venue": "Southwest Rec",
    "Instructor": "Melissa",
    "Room": "SW 1",
-   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU® incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
+   "Description": "A strength training class targeting major muscle groups using the BOSU, various equipment and body weight. BOSU incorporates balance and bursts of cardio into movements intended to help you tone all major muscles."
  },
  {
    "Entry": 98,
@@ -2213,7 +2213,7 @@
  },
  {
    "Entry": 161,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Monday",
@@ -2223,7 +2223,7 @@
    "Venue": "Southwest Rec",
    "Instructor": "Sam K.",
    "Room": "SW 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 100,
@@ -2367,7 +2367,7 @@
  },
  {
    "Entry": 104,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Wednesday",
@@ -2377,11 +2377,11 @@
    "Venue": "Student Rec",
    "Instructor": "Olivia T.",
    "Room": "SR 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 170,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Tuesday",
@@ -2391,11 +2391,11 @@
    "Venue": "Southwest Rec",
    "Instructor": "Natalie Acevedo",
    "Room": "SW 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  },
  {
    "Entry": 172,
-   "Name": "Zumba®",
+   "Name": "Zumba",
    "Type": "Dance",
    "Type_2": "Indoor",
    "Day": "Thursday",
@@ -2405,6 +2405,6 @@
    "Venue": "Southwest Rec",
    "Instructor": "Milan",
    "Room": "SW 3",
-   "Description": "A fusion of Latin and international music, Zumba® creates exciting and effective fitness through dance routines. Zumba® utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
+   "Description": "A fusion of Latin and international music, Zumba creates exciting and effective fitness through dance routines. Zumba utilizes interval training and resistance training to maximize caloric output, fat burning and toning."
  }
 ]
