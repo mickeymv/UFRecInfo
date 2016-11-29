@@ -223,6 +223,63 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 satisfiesAllFilters = false;
                                 break;
                             }
+                        } else if (filter.equals("date")) {
+                            /*Convert date into what specific day*/
+                            /*
+                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                            */
+                        } else if (filter.equals("time")) {
+                            /*Convert time into a format recognized by us*/
+                            /*
+                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                            */
+                        } else if (filter.equals("time-period")) {
+                            /*Convert time-period into a format recognized by us*/
+                            /*
+                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                            */
+                        } else if (filter.equals("type3")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getType_2()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        } else if (filter.equals("duration")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getDuration()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        } else if (filter.equals("Location")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        } else if (filter.equals("classtype")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getType()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                        } else if (filter.equals("time-of-day")) {
+                            /*Convert morning etc. to select the times.*/
+                            /*
+                            if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
+                            */
+                        } else if (filter.equals("Instructor")) {
+                            if (!(filterValue.toString().contains(fitnessClass.getInstructor()))) {
+                                satisfiesAllFilters = false;
+                                break;
+                            }
                         }
                     }
                     if(satisfiesAllFilters) {
