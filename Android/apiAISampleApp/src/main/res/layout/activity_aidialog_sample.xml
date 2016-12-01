@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:text="Start Fitness Agent"
+        android:onClick="buttonListenOnClick"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
-    </RelativeLayout>
+    <ListView
+        android:id="@+id/classListView"
+        android:layout_width="match_parent"
+        android:layout_height="457dp"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/buttonListen"
@@ -17,26 +24,18 @@
         android:text="Click to Speak"
         android:onClick="buttonListenOnClick"
         android:layout_alignParentTop="true"
+        android:layout_gravity="bottom|right"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="407dp" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="254dp"
+        android:layout_height="64dp"
         android:id="@+id/resultTextView"
-
+        android:layout_gravity="bottom"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/buttonStart" />
+        android:layout_alignParentBottom="true" />
 
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Fitness Agent"
-        android:onClick="buttonListenOnClick"
-        android:layout_below="@+id/buttonContainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+</FrameLayout>
 
-</RelativeLayout>

@@ -22,10 +22,10 @@ package ai.api.sample;
  ***********************************************************************************************************************/
 
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ai.api.AIConfiguration;
 import ai.api.GsonFactory;
@@ -66,6 +65,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     private Gson gson = GsonFactory.getGson();
 
     ArrayList<FitnessClass> classList = new ArrayList<>();
+    ArrayList<FitnessClass> filteredList = new ArrayList<>();
 
     private final String startMessage = "Hi! "; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
@@ -75,11 +75,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     static HashMap previousFilters = new HashMap();
     RequestExtras requestExtras;
 
+    FitnessClassAdapter fitnessClassListViewAdapter;
+
     {
         filterContext.setParameters(filters);
         contexts.add(filterContext);
         requestExtras = new RequestExtras(contexts, null);
     }
+
+    ListView listView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -109,7 +113,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 startButton.setVisibility(Button.INVISIBLE);
                 resultTextView.setEnabled(true);
                 resultTextView.setVisibility(Button.VISIBLE);
-                resultTextView.setText("Agent: " + startMessage);
+                resultTextView.setText(startMessage);
                 TTS.speak(startMessage);
 
                 while (TTS.textToSpeech.isSpeaking()) {
@@ -119,6 +123,10 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             }
         });
         loadJSONFromAsset();
+
+        listView = (ListView) this.findViewById(R.id.classListView);
+        fitnessClassListViewAdapter = new FitnessClassAdapter(this, filteredList);
+        listView.setAdapter(fitnessClassListViewAdapter);
     }
 
     /*
@@ -133,7 +141,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             @Override
             public void run() {
 
-                ArrayList<FitnessClass> filteredList = new ArrayList<>();
                 Log.d(TAG, "onResult");
 
 
@@ -150,10 +157,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                 Log.i(TAG, "Action: " + result.getAction());
                 String speech = resultTextView.getText().toString();
+                /*
                 speech += "\n\nAgent: " + result.getFulfillment().getSpeech();
+                */
                 Log.i(TAG, "Speech: " + speech);
 
-                //resultTextView.setText(speech);
+                resultTextView.setText(speech);
                 TTS.speak(result.getFulfillment().getSpeech());
 
                 AIOutputContext filterContext = response.getResult().getContext("filters");
@@ -204,6 +213,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         2. date, replace date
                         with the correct day of the week.
                 * */
+
+                filteredList.clear();
 
                 boolean satisfiesAllFilters;
                 for (FitnessClass fitnessClass: classList) {
@@ -287,13 +298,21 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     }
                 }
 
+                /*
+                Arrays.fill(filteredFitnessClasses,null);
+                fitnessClassListViewAdapter.notifyDataSetChanged();
+*/
 
+                //listView.setAdapter(fitnessClassListViewAdapter);
+                fitnessClassListViewAdapter.notifyDataSetChanged();
+                //listView.invalidateViews();
+                //listView.refreshDrawableState();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
 
-                resultTextView.setText(filteredList.toString());
+                //resultTextView.setText(filteredList.toString());
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
@@ -372,6 +391,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         }
         try {
             classList = gson.fromJson(json, new TypeToken<List<FitnessClass>>(){}.getType());
+            filteredList.addAll(classList);
         } catch (Exception e) {
             e.printStackTrace();
         }
