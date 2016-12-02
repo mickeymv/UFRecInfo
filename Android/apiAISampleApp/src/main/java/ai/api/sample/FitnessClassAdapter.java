@@ -57,10 +57,16 @@ public class FitnessClassAdapter extends BaseAdapter {
                 convertView.findViewById(R.id.className);
         TextView textViewItemDay = (TextView)
                 convertView.findViewById(R.id.classDay);
+        TextView location = (TextView)
+                convertView.findViewById(R.id.location);
+        TextView type = (TextView)
+                convertView.findViewById(R.id.type);
 
         //sets the text for item name and item description from the current item object
-        textViewItemName.setText(currentClass.getName());
-        textViewItemDay.setText(currentClass.getDay());
+        textViewItemName.setText("Name: "+currentClass.getName());
+        textViewItemDay.setText("Day: "+currentClass.getDay());
+        location.setText("Location: "+currentClass.getVenue());
+        type.setText("Type: "+currentClass.getType());
 
         // returns the view for the current row
         return convertView;
