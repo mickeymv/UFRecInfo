@@ -86,7 +86,7 @@
  {
    "Entry": 111,
    "Name": "Hatha Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Tuesday",
    "Begin_Time": "6:15 AM",
@@ -100,7 +100,7 @@
  {
    "Entry": 112,
    "Name": "Hatha Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Thursday",
    "Begin_Time": "6:15 AM",
@@ -254,7 +254,7 @@
  {
    "Entry": 22,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Monday",
    "Begin_Time": "8:00 AM",
@@ -268,7 +268,7 @@
  {
    "Entry": 23,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "8:00 AM",
@@ -282,7 +282,7 @@
  {
    "Entry": 24,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Friday",
    "Begin_Time": "8:00 AM",
@@ -450,7 +450,7 @@
  {
    "Entry": 25,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Tuesday",
    "Begin_Time": "10:15 AM",
@@ -464,7 +464,7 @@
  {
    "Entry": 26,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Thursday",
    "Begin_Time": "10:15 AM",
@@ -478,7 +478,7 @@
  {
    "Entry": 118,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Monday",
    "Begin_Time": "10:15 AM",
@@ -492,7 +492,7 @@
  {
    "Entry": 119,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "10:15 AM",
@@ -506,7 +506,7 @@
  {
    "Entry": 120,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Saturday",
    "Begin_Time": "10:15 AM",
@@ -520,7 +520,7 @@
  {
    "Entry": 121,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Sunday",
    "Begin_Time": "10:15 AM",
@@ -534,7 +534,7 @@
  {
    "Entry": 122,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Friday",
    "Begin_Time": "11:00 AM",
@@ -576,7 +576,7 @@
  {
    "Entry": 33,
    "Name": "Yogalates",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Thursday",
    "Begin_Time": "11:45 AM",
@@ -954,7 +954,7 @@
  {
    "Entry": 27,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "3:00 PM",
@@ -968,7 +968,7 @@
  {
    "Entry": 52,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "3:00 PM",
@@ -1122,7 +1122,7 @@
  {
    "Entry": 136,
    "Name": "Hatha Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "4:00 PM",
@@ -1192,7 +1192,7 @@
  {
    "Entry": 62,
    "Name": "Outdoor Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Outdoor",
    "Day": "Tuesday",
    "Begin_Time": "4:00 PM",
@@ -1206,7 +1206,7 @@
  {
    "Entry": 63,
    "Name": "Outdoor Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Outdoor",
    "Day": "Thursday",
    "Begin_Time": "4:00 PM",
@@ -1626,7 +1626,7 @@
  {
    "Entry": 146,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "5:30 PM",
@@ -1640,7 +1640,7 @@
  {
    "Entry": 148,
    "Name": "Yogalates",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Friday",
    "Begin_Time": "5:30 PM",
@@ -1668,7 +1668,7 @@
  {
    "Entry": 78,
    "Name": "Yogalates",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Tuesday",
    "Begin_Time": "5:45 PM",
@@ -1794,7 +1794,7 @@
  {
    "Entry": 86,
    "Name": "Tai Chi",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "6:30 PM",
@@ -1920,7 +1920,7 @@
  {
    "Entry": 153,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Monday",
    "Begin_Time": "7:00 PM",
@@ -1934,7 +1934,7 @@
  {
    "Entry": 155,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "7:00 PM",
@@ -2172,7 +2172,7 @@
  {
    "Entry": 162,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Tuesday",
    "Begin_Time": "8:15 PM",
@@ -2186,7 +2186,7 @@
  {
    "Entry": 164,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Thursday",
    "Begin_Time": "8:15 PM",
@@ -2200,7 +2200,7 @@
  {
    "Entry": 165,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Sunday",
    "Begin_Time": "8:15 PM",
@@ -2228,7 +2228,7 @@
  {
    "Entry": 100,
    "Name": "Hatha Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Monday",
    "Begin_Time": "8:30 PM",
@@ -2256,7 +2256,7 @@
  {
    "Entry": 101,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "8:30 PM",
@@ -2312,7 +2312,7 @@
  {
    "Entry": 105,
    "Name": "Power Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Thursday",
    "Begin_Time": "9:30 PM",
@@ -2326,7 +2326,7 @@
  {
    "Entry": 169,
    "Name": "Recovery Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Monday",
    "Begin_Time": "9:30 PM",
@@ -2340,7 +2340,7 @@
  {
    "Entry": 171,
    "Name": "Recovery Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Wednesday",
    "Begin_Time": "9:30 PM",
@@ -2354,7 +2354,7 @@
  {
    "Entry": 103,
    "Name": "Vinyasa Yoga",
-   "Type": "Mind & Body",
+   "Type": "Yoga",
    "Type_2": "Indoor",
    "Day": "Tuesday",
    "Begin_Time": "9:30 PM",

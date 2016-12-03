@@ -72,7 +72,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     List<AIContext> contexts = new ArrayList<>();
     AIContext filterContext = new AIContext("filters");
     HashMap filters = new HashMap();
-    static HashMap previousFilters = new HashMap();
+    //static HashMap previousFilters = new HashMap();
     RequestExtras requestExtras;
 
     FitnessClassAdapter fitnessClassListViewAdapter;
@@ -108,7 +108,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             @Override
             public void onClick(View v) {
                 filters.clear(); //Clear the context object of previous filters.
-                previousFilters.clear();
+                //previousFilters.clear();
                 startButton.setEnabled(false);
                 startButton.setVisibility(Button.INVISIBLE);
                 resultTextView.setEnabled(true);
@@ -170,37 +170,48 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 /*
                 * TODO: Switch here to check if the response is for classes or from the help intent
                 * */
+if (filterContext != null) {
+    Map parameters = filterContext.getParameters();
 
-                Map parameters = filterContext.getParameters();
-
-                filters.clear(); //Clear the context object of previous filters.
-                previousFilters.clear();
+    filters.clear(); //Clear the context object of previous filters.
+    //previousFilters.clear();
 
 
+    System.out.println(parameters.toString());
+    Iterator it = parameters.entrySet().iterator();
 
-                Iterator it = parameters.entrySet().iterator();
-                String keyValue;
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    JsonElement value = (JsonElement) pair.getValue();
-                    if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
-                        if(
+    HashMap copyParameters = new HashMap(parameters);
+
+    String keyValue;
+    while (it.hasNext()) {
+        Map.Entry pair = (Map.Entry) it.next();
+        JsonElement value = (JsonElement) pair.getValue();
+        if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
+            char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
+            if (
                             /*Set next new context sent with the request with the parameters
                                 receieved from the last API.AI response
                                  */
-                        pair.getKey().toString().charAt(pair.getKey().toString().length()-1) == '2') {
+                    endChar == '2') {
                             /*Parameter is from previous context ('#' parameter) */
-                            keyValue = pair.getKey().toString().substring(0,pair.getKey().toString().length()-1);
-                            filters.put(keyValue, pair.getValue());
-                            previousFilters.put(keyValue, pair.getValue());
-                        } else {
-                            /*Parameter is from most recent user's utterance ('$' parameter) */
-                            filters.put(pair.getKey(), pair.getValue());
-                        }
-                    }
-                    System.out.println(pair.getKey() + " = " + pair.getValue());
-                    it.remove(); // avoids a ConcurrentModificationException
+
+                keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
+                if(keyValue.equals("location")) {
+                    keyValue = "Location";
                 }
+                if (copyParameters.get(keyValue).toString().equals("\"\"")) {
+                    filters.put(keyValue, pair.getValue());
+                    //previousFilters.put(keyValue, pair.getValue());
+                }
+            } else {
+                            /*Parameter is from most recent user's utterance ('$' parameter) */
+                filters.put(pair.getKey(), pair.getValue());
+            }
+        }
+        System.out.println(pair.getKey() + " = " + pair.getValue());
+        it.remove(); // avoids a ConcurrentModificationException
+    }
+    System.out.println(filters.toString());
 
                                 /*
                 day-> Day
@@ -214,27 +225,28 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         with the correct day of the week.
                 * */
 
-                filteredList.clear();
+    filteredList.clear();
 
-                boolean satisfiesAllFilters;
-                for (FitnessClass fitnessClass: classList) {
-                    satisfiesAllFilters = true;
-                    it = filters.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry)it.next();
-                        String filter = (String) pair.getKey();
-                        JsonElement filterValue = (JsonElement) pair.getValue();
-                        if (filter.equals("day")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getDay()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("class")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("date")) {
+    boolean satisfiesAllFilters;
+    for (FitnessClass fitnessClass : classList) {
+        satisfiesAllFilters = true;
+        it = filters.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            String filter = (String) pair.getKey();
+            JsonElement filterV = (JsonElement) pair.getValue();
+            String filterValue = filterV.toString().toLowerCase();
+            if (filter.equals("day")) {
+                if (!(filterValue.toString().contains(fitnessClass.getDay().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("class")) {
+                if (!(filterValue.toString().contains(fitnessClass.getName().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("date")) {
                             /*Convert date into what specific day*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -242,7 +254,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 break;
                             }
                             */
-                        } else if (filter.equals("time")) {
+            } else if (filter.equals("time")) {
                             /*Convert time into a format recognized by us*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -250,7 +262,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 break;
                             }
                             */
-                        } else if (filter.equals("time-period")) {
+            } else if (filter.equals("time-period")) {
                             /*Convert time-period into a format recognized by us*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -258,27 +270,27 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 break;
                             }
                             */
-                        } else if (filter.equals("type3")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getType_2()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("duration")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getDuration()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("Location")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("classtype")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getType()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        } else if (filter.equals("time-of-day")) {
+            } else if (filter.equals("type3")) {
+                if (!(filterValue.toString().contains(fitnessClass.getType_2().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("duration")) {
+                if (!(filterValue.toString().contains(fitnessClass.getDuration().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("Location")) {
+                if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("classtype")) {
+                if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
+                }
+            } else if (filter.equals("time-of-day")) {
                             /*Convert morning etc. to select the times.*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
@@ -286,34 +298,34 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 break;
                             }
                             */
-                        } else if (filter.equals("Instructor")) {
-                            if (!(filterValue.toString().contains(fitnessClass.getInstructor()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                        }
-                    }
-                    if(satisfiesAllFilters) {
-                        filteredList.add(fitnessClass);
-                    }
+            } else if (filter.equals("Instructor")) {
+                if (!(filterValue.toString().contains(fitnessClass.getInstructor().toLowerCase()))) {
+                    satisfiesAllFilters = false;
+                    break;
                 }
+            }
+        }
+        if (satisfiesAllFilters) {
+            filteredList.add(fitnessClass);
+        }
+    }
 
                 /*
                 Arrays.fill(filteredFitnessClasses,null);
                 fitnessClassListViewAdapter.notifyDataSetChanged();
 */
 
-                //listView.setAdapter(fitnessClassListViewAdapter);
-                fitnessClassListViewAdapter.notifyDataSetChanged();
-                //listView.invalidateViews();
-                //listView.refreshDrawableState();
+    //listView.setAdapter(fitnessClassListViewAdapter);
+    fitnessClassListViewAdapter.notifyDataSetChanged();
+    //listView.invalidateViews();
+    //listView.refreshDrawableState();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
 
-                //resultTextView.setText(filteredList.toString());
-
+    //resultTextView.setText(filteredList.toString());
+}
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
                     Log.i(TAG, "Intent id: " + metadata.getIntentId());
