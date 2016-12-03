@@ -193,15 +193,16 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                  */
                                     endChar == '2') {
                             /*Parameter is from previous context ('#' parameter) */
-if(!isFirstRequest) {
-                                keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
-                                if (keyValue.equals("location")) {
-                                    keyValue = "Location";
+                                if (!isFirstRequest) {
+                                    keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
+                                    if (keyValue.equals("location")) {
+                                        keyValue = "Location";
+                                    }
+                                    if (copyParameters.get(keyValue).toString().equals("\"\"")) {
+                                        filters.put(keyValue, pair.getValue());
+                                        //previousFilters.put(keyValue, pair.getValue());
+                                    }
                                 }
-                                if (copyParameters.get(keyValue).toString().equals("\"\"")) {
-                                    filters.put(keyValue, pair.getValue());
-                                    //previousFilters.put(keyValue, pair.getValue());
-                                }}
                             } else {
                             /*Parameter is from most recent user's utterance ('$' parameter) */
                                 filters.put(pair.getKey(), pair.getValue());
@@ -245,71 +246,18 @@ if(!isFirstRequest) {
                                     satisfiesAllFilters = false;
                                     break;
                                 }
-           /* }
-            else if (filter.equals("date")) {
-                            /*Convert date into what specific day*/
-                            /*
-                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                            */
-            /*}
-        else if (filter.equals("time")) {
-                            /*Convert time into a format recognized by us*/
-                            /*
-                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                            */
-           /* } else if (filter.equals("time-period")) {
-                            /*Convert time-period into a format recognized by us*/
-                            /*
-                            if (!(filterValue.toString().contains(fitnessClass.getName()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                            */
-           /* } else if (filter.equals("type3")) {
-                if (!(filterValue.toString().contains(fitnessClass.getType_2().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } else if (filter.equals("duration")) {
-                if (!(filterValue.toString().contains(fitnessClass.getDuration().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } */
-                                else if (filter.equals("Location")) {
-                                    if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                        break;
-                                    }
-                                } else if (filter.equals("classtype")) {
-                                    if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                        break;
-                                    }
-           /* } else if (filter.equals("time-of-day")) {
-                            /*Convert morning etc. to select the times.*/
-                            /*
-                            if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
-                                satisfiesAllFilters = false;
-                                break;
-                            }
-                            */
-           /* } else if (filter.equals("Instructor")) {
-                if (!(filterValue.toString().contains(fitnessClass.getInstructor().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            }*/
+                            } else if (filter.equals("Location")) {
+                                if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                    break;
+                                }
+                            } else if (filter.equals("classtype")) {
+                                if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                    break;
                                 }
                             }
                         }
-
                         if (satisfiesAllFilters) {
                             filteredList.add(fitnessClass);
                         }
