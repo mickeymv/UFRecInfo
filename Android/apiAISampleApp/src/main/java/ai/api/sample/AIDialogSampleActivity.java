@@ -1,24 +1,22 @@
 package ai.api.sample;
 
 /***********************************************************************************************************************
- *
  * API.AI Android SDK -  API.AI libraries usage example
  * =================================================
- *
+ * <p>
  * Copyright (C) 2015 by Speaktoit, Inc. (https://www.speaktoit.com)
  * https://www.api.ai
- *
- ***********************************************************************************************************************
- *
+ * <p>
+ * **********************************************************************************************************************
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  ***********************************************************************************************************************/
 
 import android.os.Bundle;
@@ -61,6 +59,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private Button startButton;
     private Button speakButton;
+
+    private static boolean isFirstRequest = true;
 
     private Gson gson = GsonFactory.getGson();
 
@@ -144,7 +144,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 Log.d(TAG, "onResult");
 
 
-
                 Log.i(TAG, "Received success response");
 
                 // this is example how to get different parts of result object
@@ -170,49 +169,49 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 /*
                 * TODO: Switch here to check if the response is for classes or from the help intent
                 * */
-if (filterContext != null) {
-    Map parameters = filterContext.getParameters();
+                if (filterContext != null) {
+                    Map parameters = filterContext.getParameters();
 
-    filters.clear(); //Clear the context object of previous filters.
-    //previousFilters.clear();
+                    filters.clear(); //Clear the context object of previous filters.
+                    //previousFilters.clear();
 
 
-    System.out.println(parameters.toString());
-    Iterator it = parameters.entrySet().iterator();
+                    System.out.println(parameters.toString());
+                    Iterator it = parameters.entrySet().iterator();
 
-    HashMap copyParameters = new HashMap(parameters);
+                    HashMap copyParameters = new HashMap(parameters);
 
-    String keyValue;
-    while (it.hasNext()) {
-        Map.Entry pair = (Map.Entry) it.next();
-        JsonElement value = (JsonElement) pair.getValue();
-        if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
-            char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
-            if (
+                    String keyValue;
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        JsonElement value = (JsonElement) pair.getValue();
+                        if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
+                            char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
+                            if (
                             /*Set next new context sent with the request with the parameters
                                 receieved from the last API.AI response
                                  */
-                    endChar == '2') {
+                                    endChar == '2') {
                             /*Parameter is from previous context ('#' parameter) */
-
-                keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
-                if(keyValue.equals("location")) {
-                    keyValue = "Location";
-                }
-                if (copyParameters.get(keyValue).toString().equals("\"\"")) {
-                    filters.put(keyValue, pair.getValue());
-                    //previousFilters.put(keyValue, pair.getValue());
-                }
-            } else {
+if(!isFirstRequest) {
+                                keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
+                                if (keyValue.equals("location")) {
+                                    keyValue = "Location";
+                                }
+                                if (copyParameters.get(keyValue).toString().equals("\"\"")) {
+                                    filters.put(keyValue, pair.getValue());
+                                    //previousFilters.put(keyValue, pair.getValue());
+                                }}
+                            } else {
                             /*Parameter is from most recent user's utterance ('$' parameter) */
-                filters.put(pair.getKey(), pair.getValue());
-            }
-        }
-        System.out.println(pair.getKey() + " = " + pair.getValue());
-        it.remove(); // avoids a ConcurrentModificationException
-    }
-    System.out.println(filters.toString());
-
+                                filters.put(pair.getKey(), pair.getValue());
+                            }
+                        }
+                        System.out.println(pair.getKey() + " = " + pair.getValue());
+                        it.remove(); // avoids a ConcurrentModificationException
+                    }
+                    System.out.println(filters.toString());
+                    isFirstRequest = false;
                                 /*
                 day-> Day
                 class-> Name
@@ -225,28 +224,29 @@ if (filterContext != null) {
                         with the correct day of the week.
                 * */
 
-    filteredList.clear();
+                    filteredList.clear();
 
-    boolean satisfiesAllFilters;
-    for (FitnessClass fitnessClass : classList) {
-        satisfiesAllFilters = true;
-        it = filters.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            String filter = (String) pair.getKey();
-            JsonElement filterV = (JsonElement) pair.getValue();
-            String filterValue = filterV.toString().toLowerCase();
-            if (filter.equals("day")) {
-                if (!(filterValue.toString().contains(fitnessClass.getDay().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } else if (filter.equals("class")) {
-                if (!(filterValue.toString().contains(fitnessClass.getName().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } else if (filter.equals("date")) {
+                    boolean satisfiesAllFilters;
+                    for (FitnessClass fitnessClass : classList) {
+                        satisfiesAllFilters = true;
+                        it = filters.entrySet().iterator();
+                        while (it.hasNext()) {
+                            Map.Entry pair = (Map.Entry) it.next();
+                            String filter = (String) pair.getKey();
+                            JsonElement filterV = (JsonElement) pair.getValue();
+                            String filterValue = filterV.toString().toLowerCase();
+                            if (filter.equals("day")) {
+                                if (!(filterValue.toString().contains(fitnessClass.getDay().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                    break;
+                                }
+                            } else if (filter.equals("class")) {
+                                if (!(filterValue.toString().contains(fitnessClass.getName().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                    break;
+                                }
+           /* }
+            else if (filter.equals("date")) {
                             /*Convert date into what specific day*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -254,7 +254,8 @@ if (filterContext != null) {
                                 break;
                             }
                             */
-            } else if (filter.equals("time")) {
+            /*}
+        else if (filter.equals("time")) {
                             /*Convert time into a format recognized by us*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -262,7 +263,7 @@ if (filterContext != null) {
                                 break;
                             }
                             */
-            } else if (filter.equals("time-period")) {
+           /* } else if (filter.equals("time-period")) {
                             /*Convert time-period into a format recognized by us*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getName()))) {
@@ -270,7 +271,7 @@ if (filterContext != null) {
                                 break;
                             }
                             */
-            } else if (filter.equals("type3")) {
+           /* } else if (filter.equals("type3")) {
                 if (!(filterValue.toString().contains(fitnessClass.getType_2().toLowerCase()))) {
                     satisfiesAllFilters = false;
                     break;
@@ -280,17 +281,18 @@ if (filterContext != null) {
                     satisfiesAllFilters = false;
                     break;
                 }
-            } else if (filter.equals("Location")) {
-                if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } else if (filter.equals("classtype")) {
-                if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
-                    satisfiesAllFilters = false;
-                    break;
-                }
-            } else if (filter.equals("time-of-day")) {
+            } */
+                                else if (filter.equals("Location")) {
+                                    if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
+                                        satisfiesAllFilters = false;
+                                        break;
+                                    }
+                                } else if (filter.equals("classtype")) {
+                                    if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
+                                        satisfiesAllFilters = false;
+                                        break;
+                                    }
+           /* } else if (filter.equals("time-of-day")) {
                             /*Convert morning etc. to select the times.*/
                             /*
                             if (!(filterValue.toString().contains(fitnessClass.getVenue()))) {
@@ -298,34 +300,37 @@ if (filterContext != null) {
                                 break;
                             }
                             */
-            } else if (filter.equals("Instructor")) {
+           /* } else if (filter.equals("Instructor")) {
                 if (!(filterValue.toString().contains(fitnessClass.getInstructor().toLowerCase()))) {
                     satisfiesAllFilters = false;
                     break;
                 }
-            }
-        }
-        if (satisfiesAllFilters) {
-            filteredList.add(fitnessClass);
-        }
-    }
+            }*/
+                                }
+                            }
+                        }
+
+                        if (satisfiesAllFilters) {
+                            filteredList.add(fitnessClass);
+                        }
+                    }
 
                 /*
                 Arrays.fill(filteredFitnessClasses,null);
                 fitnessClassListViewAdapter.notifyDataSetChanged();
 */
 
-    //listView.setAdapter(fitnessClassListViewAdapter);
-    fitnessClassListViewAdapter.notifyDataSetChanged();
-    //listView.invalidateViews();
-    //listView.refreshDrawableState();
+                    //listView.setAdapter(fitnessClassListViewAdapter);
+                    fitnessClassListViewAdapter.notifyDataSetChanged();
+                    //listView.invalidateViews();
+                    //listView.refreshDrawableState();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
 
-    //resultTextView.setText(filteredList.toString());
-}
+                    //resultTextView.setText(filteredList.toString());
+                }
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
                     Log.i(TAG, "Intent id: " + metadata.getIntentId());
@@ -402,7 +407,8 @@ if (filterContext != null) {
             ex.printStackTrace();
         }
         try {
-            classList = gson.fromJson(json, new TypeToken<List<FitnessClass>>(){}.getType());
+            classList = gson.fromJson(json, new TypeToken<List<FitnessClass>>() {
+            }.getType());
             filteredList.addAll(classList);
         } catch (Exception e) {
             e.printStackTrace();
