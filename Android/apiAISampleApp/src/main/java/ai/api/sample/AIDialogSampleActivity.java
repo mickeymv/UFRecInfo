@@ -71,6 +71,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private final String startMessage = "Hi! "; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
+    private boolean isThereAChangeInResults = false;
+
     List<AIContext> contexts = new ArrayList<>();
     AIContext filterContext = new AIContext("filters");
     HashMap filters = new HashMap();
@@ -82,6 +84,13 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     private static String speechForSuggestingFilters = "";
 
     FitnessClassAdapter fitnessClassListViewAdapter;
+
+    static String[] conditioning = {"Bootcamp", "Stadium Conditioning"};
+    static String[] cardio = {"50 50", "Cycle", "Gator Theory", "Interval Training", "Intervals and Yoga", "Kickboxing", "Step", "Zumba Step"};
+    static String[] dance = {"Ballet Strength", "Hip Hop Fitness", "Zumba", "Zumba Toning"};
+    static String[] yoga = {"Hatha Yoga", "Outdoor Yoga", "Power Yoga", "Recovery Yoga", "Tai Chi", "Vinyasa Yoga", "Yogalates"};
+    static String[] strength = {"BOSU", "Core", "iBurn", "Total Body", "ViPR Intervals", "ViPR Total Body"};
+    static String[] swimming = {"Aqua Zumba", "Coached Swim"};
 
     private static TextView emptyText;
 
@@ -216,7 +225,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 }
                             } else {
                             /*Parameter is from most recent user's utterance ('$' parameter) */
-                                if(pair.getKey().toString().toLowerCase().equals("classtype")) {
+                                isThereAChangeInResults = true;
+                                if (pair.getKey().toString().toLowerCase().equals("classtype")) {
                                     if (filters.containsKey("class")) {
                                         filters.remove("class");
                                     }
@@ -264,7 +274,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                             System.out.println("\n\nThe filter key is: " + filter + "\n\n");
                             JsonElement filterV = (JsonElement) pair.getValue();
                             String filterValue = filterV.toString().toLowerCase();
-                            filterValue = filterValue.substring(1,filterValue.length()-1);
+                            filterValue = filterValue.substring(1, filterValue.length() - 1);
                             System.out.println("\n\nThe filter value is: " + filterValue + "\n\n");
                             if (filter.equals("day")) {
                                 if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getDay().toLowerCase()))) {
@@ -316,9 +326,13 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                             emptyText.setText("\n\nThere are no " + type + " classes at " + location);
                         } else if (isClass && isType && !isLocation && !isDay) {
                             emptyText.setText(className + " is not a type of " + type + "class.");
+                        } else if (isClass && isType && !isClassInType(className, type)) {
+                            emptyText.setText(className + " is not a type of " + type + " class.");
                         }
-                        TTS.speak(emptyText.getText().toString());
-                        resultTextView.setText(emptyText.getText().toString());
+                        if (isThereAChangeInResults) {
+                            TTS.speak(emptyText.getText().toString());
+                            resultTextView.setText(emptyText.getText().toString());
+                        }
                     } else if (filteredSize > 5) {
 
                         String speechLottaResults = result.getFulfillment().getSpeech() + ". I found " + filteredSize + " .";
@@ -360,13 +374,16 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                       }
 */
                         }
-
-                        TTS.speak(speechLottaResults + speechForSuggestingFilters);
-                        resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
+                        if (isThereAChangeInResults) {
+                            TTS.speak(speechLottaResults + speechForSuggestingFilters);
+                            resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
+                        }
 
                     } else { /*size of list between 1 and 5 results*/
-                        TTS.speak(result.getFulfillment().getSpeech());
-                        resultTextView.setText(result.getFulfillment().getSpeech());
+                        if (isThereAChangeInResults) {
+                            TTS.speak(result.getFulfillment().getSpeech());
+                            resultTextView.setText(result.getFulfillment().getSpeech());
+                        }
                     }
 
                 /*
@@ -461,6 +478,43 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             TTS.textToSpeech.stop();
         }
         aiDialog.showAndListen(requestExtras);
+    }
+
+    public static boolean isClassInType(String className, String type) {
+        if (getClassType(className).toLowerCase().equals(type.toLowerCase())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String getClassType(String a) {
+
+        for (int i = 0; i < conditioning.length; i++) {
+            if (a.toLowerCase().equals(conditioning[i].toLowerCase()))
+                return "Conditioning";
+        }
+        for (int i = 0; i < cardio.length; i++) {
+            if (a.toLowerCase().equals(cardio[i].toLowerCase()))
+                return "Cardio";
+        }
+        for (int i = 0; i < dance.length; i++) {
+            if (a.toLowerCase().equals(dance[i].toLowerCase()))
+                return "Dance";
+        }
+        for (int i = 0; i < yoga.length; i++) {
+            if (a.toLowerCase().equals(yoga[i].toLowerCase()))
+                return "Yoga";
+        }
+        for (int i = 0; i < strength.length; i++) {
+            if (a.toLowerCase().equals(strength[i].toLowerCase()))
+                return "Strength";
+        }
+        for (int i = 0; i < swimming.length; i++) {
+            if (a.toLowerCase().equals(swimming[i].toLowerCase()))
+                return "Swimming";
+        }
+        return "";
     }
 
     public void loadJSONFromAsset() {
