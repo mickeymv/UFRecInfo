@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ai.api.AIConfiguration;
 import ai.api.GsonFactory;
@@ -74,6 +76,10 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     HashMap filters = new HashMap();
     //static HashMap previousFilters = new HashMap();
     RequestExtras requestExtras;
+    /*
+        private static Timer timer = new Timer();
+        */
+    private static String speechForSuggestingFilters = "";
 
     FitnessClassAdapter fitnessClassListViewAdapter;
 
@@ -143,81 +149,89 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     @Override
     public void onResult(final AIResponse response) {
         runOnUiThread(new Runnable() {
-                          @Override
-                          public void run() {
+            @Override
+            public void run() {
 
-                              Log.d(TAG, "onResult");
+                Log.d(TAG, "onResult");
 
 
-                              Log.i(TAG, "Received success response");
+                Log.i(TAG, "Received success response");
 
-                              // this is example how to get different parts of result object
-                              final Status status = response.getStatus();
-                              Log.i(TAG, "Status code: " + status.getCode());
-                              Log.i(TAG, "Status type: " + status.getErrorType());
+                // this is example how to get different parts of result object
+                final Status status = response.getStatus();
+                Log.i(TAG, "Status code: " + status.getCode());
+                Log.i(TAG, "Status type: " + status.getErrorType());
 
-                              final Result result = response.getResult();
-                              Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
+                final Result result = response.getResult();
+                Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
 
-                              Log.i(TAG, "Action: " + result.getAction());
-                              String speech = resultTextView.getText().toString();
+                Log.i(TAG, "Action: " + result.getAction());
+                String speech = resultTextView.getText().toString();
                 /*
                 speech += "\n\nAgent: " + result.getFulfillment().getSpeech();
                 */
-                              Log.i(TAG, "Speech: " + speech);
+                Log.i(TAG, "Speech: " + speech);
 
-                              resultTextView.setText(speech);
+                resultTextView.setText(speech);
 
 
-                              AIOutputContext filterContext = response.getResult().getContext("filters");
+                AIOutputContext filterContext = response.getResult().getContext("filters");
 
                 /*
                 * TODO: Switch here to check if the response is for classes or from the help intent
                 * */
 
 
-                              if (filterContext != null) {
-                                  Map parameters = filterContext.getParameters();
+                if (filterContext != null) {
+                    Map parameters = filterContext.getParameters();
 
-                                  filters.clear(); //Clear the context object of previous filters.
-                                  //previousFilters.clear();
+                    filters.clear(); //Clear the context object of previous filters.
+                    //previousFilters.clear();
 
 
-                                  System.out.println(parameters.toString());
-                                  Iterator it = parameters.entrySet().iterator();
+                    System.out.println(parameters.toString());
+                    Iterator it = parameters.entrySet().iterator();
 
-                                  HashMap copyParameters = new HashMap(parameters);
+                    HashMap copyParameters = new HashMap(parameters);
 
-                                  String keyValue;
-                                  while (it.hasNext()) {
-                                      Map.Entry pair = (Map.Entry) it.next();
-                                      JsonElement value = (JsonElement) pair.getValue();
-                                      if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
-                                          char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
-                                          if (
+                    String keyValue;
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        JsonElement value = (JsonElement) pair.getValue();
+                        if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
+                            char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
+                            if (
                             /*Set next new context sent with the request with the parameters
                                 receieved from the last API.AI response
                                  */
-                                                  endChar == '2' && !isFirstRequest) {
+                                    endChar == '2' && !isFirstRequest) {
                             /*Parameter is from previous context ('#' parameter) */
-                                              keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
-                                              if (keyValue.equals("location")) {
-                                                  keyValue = "Location";
-                                              }
-                                              if (copyParameters.get(keyValue).toString().equals("\"\"")) {
-                                                  filters.put(keyValue, pair.getValue());
-                                                  //previousFilters.put(keyValue, pair.getValue());
-                                              }
-                                          } else {
+                                keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
+                                if (keyValue.equals("location")) {
+                                    keyValue = "Location";
+                                }
+                                if (copyParameters.get(keyValue).toString().equals("\"\"")) {
+                                    filters.put(keyValue, pair.getValue());
+                                    //previousFilters.put(keyValue, pair.getValue());
+                                }
+                            } else {
                             /*Parameter is from most recent user's utterance ('$' parameter) */
-                                              filters.put(pair.getKey(), pair.getValue());
-                                          }
-                                      }
-                                      System.out.println(pair.getKey() + " = " + pair.getValue());
-                                      it.remove(); // avoids a ConcurrentModificationException
-                                  }
-                                  System.out.println(filters.toString());
-                                  isFirstRequest = false;
+                                if(pair.getKey().toString().toLowerCase().equals("classtype")) {
+                                    if (filters.containsKey("class")) {
+                                        filters.remove("class");
+                                    }
+                                    if (parameters.containsKey("class2")) {
+                                        parameters.remove("class2");
+                                    }
+                                }
+                                filters.put(pair.getKey(), pair.getValue());
+                            }
+                        }
+                        System.out.println(pair.getKey() + " = " + pair.getValue());
+                        it.remove(); // avoids a ConcurrentModificationException
+                    }
+                    System.out.println(filters.toString());
+                    isFirstRequest = false;
                                 /*
                 day-> Day
                 class-> Name
@@ -230,127 +244,173 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         with the correct day of the week.
                 * */
 
-                                  filteredList.clear();
+                    filteredList.clear();
 
-                                  boolean satisfiesAllFilters;
+                    boolean satisfiesAllFilters;
 
-                                  boolean isDay = false, isLocation = false, isClass = false, isType = false;
+                    boolean isDay = false, isLocation = false, isClass = false, isType = false;
 
-                                  String day = "", location = "", className = "", type = "";
+                    String day = "", location = "", className = "", type = "";
 
-                                  System.out.println(filters);
+                    System.out.println(filters);
 
 
-                                  for (FitnessClass fitnessClass : classList) {
-                                      satisfiesAllFilters = true;
-                                      Iterator itF = filters.entrySet().iterator();
-                                      while (itF.hasNext()) {
-                                          Map.Entry pair = (Map.Entry) itF.next();
-                                          String filter = (String) pair.getKey();
-                                          System.out.println("\n\nThe filter key is: " + filter + "\n\n");
-                                          JsonElement filterV = (JsonElement) pair.getValue();
-                                          String filterValue = filterV.toString().toLowerCase();
-                                          System.out.println("\n\nThe filter value is: " + filterValue + "\n\n");
-                                          if (filter.equals("day")) {
-                                              if (!(filterValue.toString().contains(fitnessClass.getDay().toLowerCase()))) {
-                                                  satisfiesAllFilters = false;
+                    for (FitnessClass fitnessClass : classList) {
+                        satisfiesAllFilters = true;
+                        Iterator itF = filters.entrySet().iterator();
+                        while (itF.hasNext()) {
+                            Map.Entry pair = (Map.Entry) itF.next();
+                            String filter = (String) pair.getKey();
+                            System.out.println("\n\nThe filter key is: " + filter + "\n\n");
+                            JsonElement filterV = (JsonElement) pair.getValue();
+                            String filterValue = filterV.toString().toLowerCase();
+                            filterValue = filterValue.substring(1,filterValue.length()-1);
+                            System.out.println("\n\nThe filter value is: " + filterValue + "\n\n");
+                            if (filter.equals("day")) {
+                                if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getDay().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                }
+                                isDay = true;
+                                day = filterValue;
+                            } else if (filter.equals("class")) {
+                                if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getName().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                }
+                                isClass = true;
+                                className = filterValue;
+                            } else if (filter.equals("Location")) {
+                                if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getVenue().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                }
+                                isLocation = true;
+                                location = filterValue;
+                            } else if (filter.equals("classtype")) {
+                                if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getType().toLowerCase()))) {
+                                    satisfiesAllFilters = false;
+                                }
+                                isType = true;
+                                type = filterValue;
+                            }
+                        }
+                        if (satisfiesAllFilters) {
+                            filteredList.add(fitnessClass);
+                        }
+                    }
+
+                    int filteredSize = filteredList.size();
+
+                    if (filteredList.isEmpty()) {
+                        if (isDay && isClass && isLocation) { //DCL
+                            emptyText.setText("\n\nThere are no classes for " + className + " on " + day + " at " + location + ". \n\n");
+                        } else if (isDay && !isClass && isLocation && isType) { //DTL
+                            emptyText.setText("\n\nThere are no " + type + " classes on " + day + " at " + location + ". \n\n");
+                        } else if (isDay && isClass && !isType && !isLocation) { //DC
+                            emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
+                        } else if (isDay && !isClass && isType && !isLocation) { //DT
+                            emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
+                        } else if (isDay && !isClass && !isType && isLocation) { //DL
+                            emptyText.setText("\n\nThere are no classes on " + day + " at " + location);
+                        } else if (!isDay && isClass && !isType && isLocation) { //CL
+                            emptyText.setText("\n\nThere are no " + className + " classes at " + location);
+                        } else if (!isDay && !isClass && isType && isLocation) { //TL
+                            emptyText.setText("\n\nThere are no " + type + " classes at " + location);
+                        } else if (isClass && isType && !isLocation && !isDay) {
+                            emptyText.setText(className + " is not a type of " + type + "class.");
+                        }
+                        TTS.speak(emptyText.getText().toString());
+                        resultTextView.setText(emptyText.getText().toString());
+                    } else if (filteredSize > 5) {
+
+                        String speechLottaResults = result.getFulfillment().getSpeech() + ". I found " + filteredSize + " .";
+
+                        //TTS.speak(speechLottaResults);
+
+                        if (filteredSize >= 10) {
+                            speechForSuggestingFilters = "";
+                            if (!isDay && isClass && !isLocation) {
+                                speechForSuggestingFilters += "You can filter by day or location.";
+                            } else if (isClass && isLocation && !isDay) {
+                                speechForSuggestingFilters += "You can filter by day.\n\n";
+                            } else if (isClass && isDay && !isLocation) {
+                                speechForSuggestingFilters += "You can filter by location.\n\n";
+                            } else if (isType && !isClass && !isDay && !isLocation) {
+                                speechForSuggestingFilters += "You can filter by class, day, or location.\n\n";
+                            } else if (isType && !isClass && !isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
+                            } else if (isType && !isClass && !isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
+                            } else if (isType && !isClass && isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
+                            } else if (!isType && !isClass && isDay && !isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or location.\n\n";
+                            } else if (!isType && !isClass && isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class name or class type.\n\n";
+                            } else if (isType && !isClass && isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
+                            } else if (!isType && !isClass && !isDay && isLocation) {
+                                speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or day.\n\n";
+                            }
+/*
+                                          timer.schedule(new TimerTask() {
+                                              @Override
+                                              public void run() {
+                                                  TTS.delayedSpeak(speechForSuggestingFilters);
                                               }
-                                              isDay = true;
-                                              day = filterValue;
-                                          } else if (filter.equals("class")) {
-                                              if (!(filterValue.toString().contains(fitnessClass.getName().toLowerCase()))) {
-                                                  satisfiesAllFilters = false;
-                                              }
-                                              isClass = true;
-                                              className = filterValue;
-                                          } else if (filter.equals("Location")) {
-                                              if (!(filterValue.toString().contains(fitnessClass.getVenue().toLowerCase()))) {
-                                                  satisfiesAllFilters = false;
-                                              }
-                                              isLocation = true;
-                                              location = filterValue;
-                                          } else if (filter.equals("classtype")) {
-                                              if (!(filterValue.toString().contains(fitnessClass.getType().toLowerCase()))) {
-                                                  satisfiesAllFilters = false;
-                                              }
-                                              isType = true;
-                                              type = filterValue;
-                                          }
+                                          }, 10*1000);
                                       }
-                                      if (satisfiesAllFilters) {
-                                          filteredList.add(fitnessClass);
-                                      }
-                                  }
+*/
+                        }
 
-                                  int filteredSize = filteredList.size();
+                        TTS.speak(speechLottaResults + speechForSuggestingFilters);
+                        resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
 
-                                  if (filteredList.isEmpty()) {
-                                      if (isDay && isClass && isLocation) { //DCL
-                                          emptyText.setText("\n\nThere are no classes for " + className + " on " + day + " at " + location + ". \n\n");
-                                      } else if (isDay && !isClass && isLocation && isType) { //DTL
-                                          emptyText.setText("\n\nThere are no " + type + " classes on " + day + " at " + location + ". \n\n");
-                                      } else if (isDay && isClass && !isType && !isLocation) { //DC
-                                          emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
-                                      } else if (isDay && !isClass && isType && !isLocation) { //DT
-                                          emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
-                                      } else if (isDay && !isClass && !isType && isLocation) { //DL
-                                          emptyText.setText("\n\nThere are no classes on " + day + " at " + location);
-                                      } else if (!isDay && isClass && !isType && isLocation) { //CL
-                                          emptyText.setText("\n\nThere are no " + className + " classes at " + location);
-                                      } else if (!isDay && !isClass && isType && isLocation) { //TL
-                                          emptyText.setText("\n\nThere are no " + type + " classes at " + location);
-                                      }
-                                      TTS.speak(emptyText.getText().toString());
-                                  } else if (filteredSize > 5) {
-                                      TTS.speak(result.getFulfillment().getSpeech());
-                                      TTS.speak("There are " + filteredSize + " classes that I found.");
-                                      if (filteredSize >= 10) {
-
-                                          TTS.speak("You could filter more!");
-                                      }
-                                  }
+                    } else { /*size of list between 1 and 5 results*/
+                        TTS.speak(result.getFulfillment().getSpeech());
+                        resultTextView.setText(result.getFulfillment().getSpeech());
+                    }
 
                 /*
                 Arrays.fill(filteredFitnessClasses,null);
                 fitnessClassListViewAdapter.notifyDataSetChanged();
 */
 
-                                  //listView.setAdapter(fitnessClassListViewAdapter);
-                                  fitnessClassListViewAdapter.notifyDataSetChanged();
-                                  //listView.invalidateViews();
-                                  //listView.refreshDrawableState();
+                    //listView.setAdapter(fitnessClassListViewAdapter);
+                    fitnessClassListViewAdapter.notifyDataSetChanged();
+
+                    //listView.invalidateViews();
+                    //listView.refreshDrawableState();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
 
-                                  //resultTextView.setText(filteredList.toString());
-                              }
+                    //resultTextView.setText(filteredList.toString());
 
 
-                              final Metadata metadata = result.getMetadata();
-                              if (metadata != null)
+                    final Metadata metadata = result.getMetadata();
+                    if (metadata != null)
 
-                              {
-                                  Log.i(TAG, "Intent id: " + metadata.getIntentId());
-                                  Log.i(TAG, "Intent name: " + metadata.getIntentName());
-                              }
+                    {
+                        Log.i(TAG, "Intent id: " + metadata.getIntentId());
+                        Log.i(TAG, "Intent name: " + metadata.getIntentName());
+                    }
 
-                              final HashMap<String, JsonElement> params = result.getParameters();
-                              if (params != null && !params.isEmpty())
+                    final HashMap<String, JsonElement> params = result.getParameters();
+                    if (params != null && !params.isEmpty())
 
-                              {
-                                  Log.i(TAG, "Parameters: ");
-                                  for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
-                                      Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
-                                  }
-                              }
-                          }
+                    {
+                        Log.i(TAG, "Parameters: ");
+                        for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
+                            Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
+                        }
+                    }
+                }
 
-                      }
+            }
 
-        );
+        });
     }
+
 
     @Override
     public void onError(final AIError error) {
@@ -393,7 +453,13 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     public void buttonListenOnClick(final View view) {
         /*  Send every request with a context.
         */
-
+        /*
+        timer.cancel();
+        timer.purge();
+        */
+        if (TTS.textToSpeech.isSpeaking()) {
+            TTS.textToSpeech.stop();
+        }
         aiDialog.showAndListen(requestExtras);
     }
 

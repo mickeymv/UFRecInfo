@@ -29,6 +29,7 @@ import java.util.Locale;
 public class TTS {
 
     public static TextToSpeech textToSpeech;
+    public static TextToSpeech delayedTextToSpeech;
 
     public static void init(final Context context) {
         if (textToSpeech == null) {
@@ -39,9 +40,21 @@ public class TTS {
                 }
             });
         }
+        if (delayedTextToSpeech == null) {
+            delayedTextToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int i) {
+                    delayedTextToSpeech.setLanguage(Locale.US);
+                }
+            });
+        }
     }
 
     public static void speak(final String text) {
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    public static void delayedSpeak(final String text) {
+        delayedTextToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 }
