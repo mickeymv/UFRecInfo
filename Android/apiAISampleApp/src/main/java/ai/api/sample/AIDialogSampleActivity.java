@@ -33,7 +33,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -227,9 +226,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                             if (value.equalsIgnoreCase("yes")) {
                                 filters.clear();
                                 filteredList.clear();
-                                Collections.copy(filteredList, classList);
                                 fitnessClassListViewAdapter.notifyDataSetChanged();
-                                systemClearOrConfirmationResponse = "Okay, let's start over.";
+                                systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
                             } else {
                                 systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
                             }
