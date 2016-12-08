@@ -22,6 +22,7 @@ package ai.api.sample;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -110,7 +111,17 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         requestExtras = new RequestExtras(contexts, null);
     }
 
+    ArrayList<String> filterValues = new ArrayList<String>();
+    ArrayAdapter<String> filtersListViewAdapter;
+
     ListView listView;
+
+    ListView filtersListView ;
+
+    private String getStringValueFromJSONElement (JsonElement jsonElement) {
+        String filterValue = jsonElement.toString().toLowerCase();
+        return filterValue.substring(1, filterValue.length() - 1);
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -137,6 +148,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             public void onClick(View v) {
                 isFirstRequest = true;
                 filters.clear(); //Clear the context object of previous filters.
+                filterValues.clear();
                 //previousFilters.clear();
                 startButton.setEnabled(false);
                 startButton.setVisibility(Button.INVISIBLE);
@@ -153,11 +165,18 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         });
         loadJSONFromAsset();
 
+        //Set for classListView
         listView = (ListView) this.findViewById(R.id.classListView);
         fitnessClassListViewAdapter = new FitnessClassAdapter(this, filteredList);
         listView.setAdapter(fitnessClassListViewAdapter);
         emptyText = (TextView) findViewById(R.id.emptyResultsTextView);
         listView.setEmptyView(emptyText);
+
+        //Set for filtersListView
+        filtersListView = (ListView) findViewById(R.id.filtersListView);
+        filtersListViewAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, filterValues);
+        filtersListView.setAdapter(filtersListViewAdapter);
     }
 
     private void filterClassesBasedOnFilters() {
@@ -230,9 +249,11 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         if (hasClearBeenSaid) { /*Check if the user is confirming a reset request*/
             if (value.equalsIgnoreCase("yes")) {
                 filters.clear();
+                filterValues.clear();
                 filteredList.clear();
                 filteredList.addAll(classList); // show all the classes
                 fitnessClassListViewAdapter.notifyDataSetChanged();
+                filtersListViewAdapter.notifyDataSetChanged();
                 systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
                 Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
             } else {
@@ -266,9 +287,11 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 value = value.substring(1, value.length() - 1);
                 if (value.equalsIgnoreCase("yes")) {
                     filters.clear();
+                    filterValues.clear();
                     filteredList.clear();
                     filteredList.addAll(classList); // show all the classes
                     fitnessClassListViewAdapter.notifyDataSetChanged();
+                    filtersListViewAdapter.notifyDataSetChanged();
                     systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
                     Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
                 } else {
@@ -301,6 +324,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     }
                     if (copyParameters.get(keyValue).toString().equals("\"\"")) {
                         filters.put(keyValue, pair.getValue());
+                        filterValues.add(getStringValueFromJSONElement((JsonElement) pair.getValue()));
                         //previousFilters.put(keyValue, pair.getValue());
                     }
                 } else {
@@ -315,6 +339,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         }
                     }
                     filters.put(pair.getKey(), pair.getValue());
+                    filterValues.add(getStringValueFromJSONElement((JsonElement) pair.getValue()));
                 }
             }
             System.out.println(pair.getKey() + " = " + pair.getValue());
@@ -441,6 +466,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                         Log.i("4.", "\n\n4. In View mode..the no of filters are: " + filters.size() + "\n\n");
                         filters.clear(); //Clear the context object of previous filters.
+                        filterValues.clear();
 
                         setFiltersFromParameters(parameters);
 
@@ -455,6 +481,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         setClassListView(result);
 
                         fitnessClassListViewAdapter.notifyDataSetChanged();
+                        filtersListViewAdapter.notifyDataSetChanged();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
