@@ -7,8 +7,14 @@
         android:id="@+id/filtersListView"
         android:layout_width="match_parent"
         android:layout_gravity="top|center_vertical"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="63dp"
+        />
+
+    <ListView
+        android:id="@+id/classListView"
+        android:layout_width="match_parent"
+        android:layout_height="419dp"
+        android:layout_marginTop="50dp"/>
 
     <Button
         android:id="@+id/buttonStart"
@@ -41,16 +47,11 @@
 
     <TextView
         android:layout_width="254dp"
-        android:layout_height="64dp"
+        android:layout_height="87dp"
         android:id="@+id/emptyResultsTextView"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
-
-    <ListView
-        android:id="@+id/classListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"/>
 
 </FrameLayout>

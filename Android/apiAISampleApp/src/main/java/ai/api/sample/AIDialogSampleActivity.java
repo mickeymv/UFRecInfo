@@ -85,6 +85,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     private static String speechForSuggestingFilters = "";
 
     FitnessClassAdapter fitnessClassListViewAdapter;
+    FilterAdapter filtersListViewAdapter;
 
     static String[] conditioning = {"Bootcamp", "Stadium Conditioning"};
     static String[] cardio = {"50 50", "Cycle", "Gator Theory", "Interval Training", "Intervals and Yoga", "Kickboxing", "Step", "Zumba Step"};
@@ -111,8 +112,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         requestExtras = new RequestExtras(contexts, null);
     }
 
-    ArrayList<String> filterValues = new ArrayList<String>();
-    ArrayAdapter<String> filtersListViewAdapter;
+    ArrayList<Filter> filterValues = new ArrayList<Filter>();
 
     ListView listView;
 
@@ -174,8 +174,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
         //Set for filtersListView
         filtersListView = (ListView) findViewById(R.id.filtersListView);
-        filtersListViewAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, filterValues);
+        filtersListViewAdapter = new FilterAdapter(this, filterValues);
         filtersListView.setAdapter(filtersListViewAdapter);
     }
 
@@ -324,7 +323,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     }
                     if (copyParameters.get(keyValue).toString().equals("\"\"")) {
                         filters.put(keyValue, pair.getValue());
-                        filterValues.add(getStringValueFromJSONElement((JsonElement) pair.getValue()));
+                        filterValues.add(new Filter(getStringValueFromJSONElement((JsonElement) pair.getValue())));
                         //previousFilters.put(keyValue, pair.getValue());
                     }
                 } else {
@@ -339,7 +338,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         }
                     }
                     filters.put(pair.getKey(), pair.getValue());
-                    filterValues.add(getStringValueFromJSONElement((JsonElement) pair.getValue()));
+                    filterValues.add(new Filter(getStringValueFromJSONElement((JsonElement) pair.getValue())));
                 }
             }
             System.out.println(pair.getKey() + " = " + pair.getValue());
