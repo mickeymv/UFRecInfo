@@ -96,6 +96,14 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private static boolean hasClearBeenSaid = false;
 
+    boolean isDay = false, isLocation = false, isClass = false, isType = false;
+
+    String day = "", location = "", className = "", type = "";
+
+    String systemClearOrConfirmationResponse = "";
+
+    boolean inSystemClearOrConfirmationMode = false;
+
     {
         filterContext.setParameters(filters);
         contexts.add(filterContext);
@@ -151,24 +159,233 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         listView.setEmptyView(emptyText);
     }
 
+    private void filterClassesBasedOnFilters() {
+        boolean satisfiesAllFilters;
+
+        isDay = false;
+        isLocation = false;
+        isClass = false;
+        isType = false;
+
+        day = "";
+        location = "";
+        className = "";
+        type = "";
+
+        System.out.println(filters);
+
+
+        for (FitnessClass fitnessClass : classList) {
+            satisfiesAllFilters = true;
+            Iterator itF = filters.entrySet().iterator();
+            while (itF.hasNext()) {
+                Map.Entry pair = (Map.Entry) itF.next();
+                String filter = (String) pair.getKey();
+                System.out.println("\n\nThe filter key is: " + filter + "\n\n");
+                JsonElement filterV = (JsonElement) pair.getValue();
+                String filterValue = filterV.toString().toLowerCase();
+                filterValue = filterValue.substring(1, filterValue.length() - 1);
+                System.out.println("\n\nThe filter value is: " + filterValue + "\n\n");
+                if (filter.equals("day")) {
+                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getDay().toLowerCase()))) {
+                        satisfiesAllFilters = false;
+                    }
+                    isDay = true;
+                    day = filterValue;
+                } else if (filter.equals("class")) {
+                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getName().toLowerCase()))) {
+                        satisfiesAllFilters = false;
+                    }
+                    isClass = true;
+                    className = filterValue;
+                } else if (filter.equals("Location")) {
+                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getVenue().toLowerCase()))) {
+                        satisfiesAllFilters = false;
+                    }
+                    isLocation = true;
+                    location = filterValue;
+                } else if (filter.equals("classtype")) {
+                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getType().toLowerCase()))) {
+                        satisfiesAllFilters = false;
+                    }
+                    isType = true;
+                    type = filterValue;
+                }
+            }
+            if (satisfiesAllFilters) {
+                filteredList.add(fitnessClass);
+            }
+        }
+    }
+
     /*
     @Override
     public void onStart() {
         super.onStart();
     }
 */
+
+    private void checkForReset(Map parameters) {
+        systemClearOrConfirmationResponse = "";
+        inSystemClearOrConfirmationMode = false;
+        if (!hasClearBeenSaid) { /*Check if the user wants to start over*/
+            JsonElement value = (JsonElement) parameters.get("clear");
+            if (!value.toString().equals("\"\"")) {
+                systemClearOrConfirmationResponse = "Okay, you want to start over? Say Yes or No to confirm.";
+                inSystemClearOrConfirmationMode = true;
+                hasClearBeenSaid = true;
+            }
+        } else { /*Clear was said before, now we look for confirmation from user*/
+            hasClearBeenSaid = false;
+            JsonElement valueE = (JsonElement) parameters.get("confirmation");
+            if (!valueE.toString().equals("\"\"")) {
+                String value = parameters.get("confirmation").toString();
+                value = value.substring(1, value.length() - 1);
+
+                if (value.equalsIgnoreCase("yes")) {
+                    filters.clear();
+                    filteredList.clear();
+                    filteredList.addAll(classList); // show all the classes
+                    fitnessClassListViewAdapter.notifyDataSetChanged();
+                    systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
+                } else {
+                    systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
+                }
+                inSystemClearOrConfirmationMode = true;
+            }
+        }
+    }
+
+    public void setFiltersFromParameters(Map parameters) {
+        HashMap copyParameters = new HashMap(parameters);
+        Iterator it = parameters.entrySet().iterator();
+        String keyValue;
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            JsonElement value = (JsonElement) pair.getValue();
+            if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
+                char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
+                if (
+                            /*Set next new context sent with the request with the parameters
+                                receieved from the last API.AI response
+                                 */
+                        endChar == '2' && !isFirstRequest) {
+                            /*Parameter is from previous context ('#' parameter) */
+                    keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
+                    if (keyValue.equals("location")) {
+                        keyValue = "Location";
+                    }
+                    if (copyParameters.get(keyValue).toString().equals("\"\"")) {
+                        filters.put(keyValue, pair.getValue());
+                        //previousFilters.put(keyValue, pair.getValue());
+                    }
+                } else {
+                            /*Parameter is from most recent user's utterance ('$' parameter) */
+                    isThereAChangeInResults = true;
+                    if (pair.getKey().toString().toLowerCase().equals("classtype")) {
+                        if (filters.containsKey("class")) {
+                            filters.remove("class");
+                        }
+                        if (parameters.containsKey("class2")) {
+                            parameters.remove("class2");
+                        }
+                    }
+                    filters.put(pair.getKey(), pair.getValue());
+                }
+            }
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+
+    private void setClassListView(Result result) {
+        int filteredSize = filteredList.size();
+
+        if (filteredList.isEmpty()) {
+            if (isDay && isClass && isLocation) { //DCL
+                emptyText.setText("\n\nThere are no classes for " + className + " on " + day + " at " + location + ". \n\n");
+            } else if (isDay && !isClass && isLocation && isType) { //DTL
+                emptyText.setText("\n\nThere are no " + type + " classes on " + day + " at " + location + ". \n\n");
+            } else if (isDay && isClass && !isType && !isLocation) { //DC
+                emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
+            } else if (isDay && !isClass && isType && !isLocation) { //DT
+                emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
+            } else if (isDay && !isClass && !isType && isLocation) { //DL
+                emptyText.setText("\n\nThere are no classes on " + day + " at " + location);
+            } else if (!isDay && isClass && !isType && isLocation) { //CL
+                emptyText.setText("\n\nThere are no " + className + " classes at " + location);
+            } else if (!isDay && !isClass && isType && isLocation) { //TL
+                emptyText.setText("\n\nThere are no " + type + " classes at " + location);
+            } else if (isClass && isType && !isLocation && !isDay) {
+                emptyText.setText(className + " is not a type of " + type + "class.");
+            } else if (isClass && isType && !isClassInType(className, type)) {
+                emptyText.setText(className + " is not a type of " + type + " class.");
+            }
+            if (isThereAChangeInResults) {
+                TTS.speak(emptyText.getText().toString());
+                resultTextView.setText(emptyText.getText().toString());
+            }
+        } else if (filteredSize > 5) {
+
+            String speechLottaResults = result.getFulfillment().getSpeech() + ". I found " + filteredSize + " .";
+
+            //TTS.speak(speechLottaResults);
+
+            if (filteredSize >= 10) {
+                speechForSuggestingFilters = "";
+                if (!isDay && isClass && !isLocation) {
+                    speechForSuggestingFilters += "You can filter by day or location.";
+                } else if (isClass && isLocation && !isDay) {
+                    speechForSuggestingFilters += "You can filter by day.\n\n";
+                } else if (isClass && isDay && !isLocation) {
+                    speechForSuggestingFilters += "You can filter by location.\n\n";
+                } else if (isType && !isClass && !isDay && !isLocation) {
+                    speechForSuggestingFilters += "You can filter by class, day, or location.\n\n";
+                } else if (isType && !isClass && !isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
+                } else if (isType && !isClass && !isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
+                } else if (isType && !isClass && isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
+                } else if (!isType && !isClass && isDay && !isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or location.\n\n";
+                } else if (!isType && !isClass && isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class name or class type.\n\n";
+                } else if (isType && !isClass && isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
+                } else if (!isType && !isClass && !isDay && isLocation) {
+                    speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or day.\n\n";
+                }
+/*
+                                          timer.schedule(new TimerTask() {
+                                              @Override
+                                              public void run() {
+                                                  TTS.delayedSpeak(speechForSuggestingFilters);
+                                              }
+                                          }, 10*1000);
+                                      }
+*/
+            }
+            if (isThereAChangeInResults) {
+                TTS.speak(speechLottaResults + speechForSuggestingFilters);
+                resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
+            }
+
+        } else { /*size of list between 1 and 5 results*/
+            if (isThereAChangeInResults) {
+                TTS.speak(result.getFulfillment().getSpeech());
+                resultTextView.setText(result.getFulfillment().getSpeech());
+            }
+        }
+    }
+
     @Override
     public void onResult(final AIResponse response) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                Log.d(TAG, "onResult");
 
-
-                Log.i(TAG, "Received success response");
-
-                // this is example how to get different parts of result object
                 final Status status = response.getStatus();
                 Log.i(TAG, "Status code: " + status.getCode());
                 Log.i(TAG, "Status type: " + status.getErrorType());
@@ -201,233 +418,32 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
 
                     System.out.println(parameters.toString());
-                    Iterator it = parameters.entrySet().iterator();
 
-                    HashMap copyParameters = new HashMap(parameters);
 
-                    String systemClearOrConfirmationResponse = "";
 
-                    boolean inSystemClearOrConfirmationMode = false;
 
-                    if (!hasClearBeenSaid) { /*Check if the user wants to start over*/
-                        JsonElement value = (JsonElement) parameters.get("clear");
-                        if (!value.toString().equals("\"\"")) {
-                            systemClearOrConfirmationResponse = "Okay, you want to start over? Say Yes or No to confirm.";
-                            inSystemClearOrConfirmationMode = true;
-                            hasClearBeenSaid = true;
-                        }
-                    } else { /*Clear was said before, now we look for confirmation from user*/
-                        hasClearBeenSaid = false;
-                        JsonElement valueE = (JsonElement) parameters.get("confirmation");
-                        if (!valueE.toString().equals("\"\"")) {
-                            String value = parameters.get("confirmation").toString();
-                            value = value.substring(1, value.length() - 1);
+                    checkForReset(parameters);
 
-                            if (value.equalsIgnoreCase("yes")) {
-                                filters.clear();
-                                filteredList.clear();
-                                fitnessClassListViewAdapter.notifyDataSetChanged();
-                                systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
-                            } else {
-                                systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
-                            }
-                            inSystemClearOrConfirmationMode = true;
-                        }
-                    }
-                    if (inSystemClearOrConfirmationMode) {
+
+                    if (inSystemClearOrConfirmationMode) { //We are either have reset the filters or ask for confirmation to do so.
                         TTS.speak(systemClearOrConfirmationResponse);
-                    }
+                        resultTextView.setText(systemClearOrConfirmationResponse);
+                    } else {  //proceed with filtering
 
-                    if (!inSystemClearOrConfirmationMode) {
-                        String keyValue;
-                        while (it.hasNext()) {
-                            Map.Entry pair = (Map.Entry) it.next();
-                            JsonElement value = (JsonElement) pair.getValue();
-                            if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
-                                char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
-                                if (
-                            /*Set next new context sent with the request with the parameters
-                                receieved from the last API.AI response
-                                 */
-                                        endChar == '2' && !isFirstRequest) {
-                            /*Parameter is from previous context ('#' parameter) */
-                                    keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
-                                    if (keyValue.equals("location")) {
-                                        keyValue = "Location";
-                                    }
-                                    if (copyParameters.get(keyValue).toString().equals("\"\"")) {
-                                        filters.put(keyValue, pair.getValue());
-                                        //previousFilters.put(keyValue, pair.getValue());
-                                    }
-                                } else {
-                            /*Parameter is from most recent user's utterance ('$' parameter) */
-                                    isThereAChangeInResults = true;
-                                    if (pair.getKey().toString().toLowerCase().equals("classtype")) {
-                                        if (filters.containsKey("class")) {
-                                            filters.remove("class");
-                                        }
-                                        if (parameters.containsKey("class2")) {
-                                            parameters.remove("class2");
-                                        }
-                                    }
-                                    filters.put(pair.getKey(), pair.getValue());
-                                }
-                            }
-                            System.out.println(pair.getKey() + " = " + pair.getValue());
-                            it.remove(); // avoids a ConcurrentModificationException
-                        }
+                        setFiltersFromParameters(parameters);
+
                         System.out.println(filters.toString());
                         isFirstRequest = false;
-                                /*
-                day-> Day
-                class-> Name
-                 */
 
-
-
-                                /* For 1. day, replace today, tomorrow, weekend, etc.
-                        2. date, replace date
-                        with the correct day of the week.
-                * */
 
                         filteredList.clear();
 
-                        boolean satisfiesAllFilters;
 
-                        boolean isDay = false, isLocation = false, isClass = false, isType = false;
-
-                        String day = "", location = "", className = "", type = "";
-
-                        System.out.println(filters);
+                        filterClassesBasedOnFilters();
 
 
-                        for (FitnessClass fitnessClass : classList) {
-                            satisfiesAllFilters = true;
-                            Iterator itF = filters.entrySet().iterator();
-                            while (itF.hasNext()) {
-                                Map.Entry pair = (Map.Entry) itF.next();
-                                String filter = (String) pair.getKey();
-                                System.out.println("\n\nThe filter key is: " + filter + "\n\n");
-                                JsonElement filterV = (JsonElement) pair.getValue();
-                                String filterValue = filterV.toString().toLowerCase();
-                                filterValue = filterValue.substring(1, filterValue.length() - 1);
-                                System.out.println("\n\nThe filter value is: " + filterValue + "\n\n");
-                                if (filter.equals("day")) {
-                                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getDay().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                    }
-                                    isDay = true;
-                                    day = filterValue;
-                                } else if (filter.equals("class")) {
-                                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getName().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                    }
-                                    isClass = true;
-                                    className = filterValue;
-                                } else if (filter.equals("Location")) {
-                                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getVenue().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                    }
-                                    isLocation = true;
-                                    location = filterValue;
-                                } else if (filter.equals("classtype")) {
-                                    if (!(filterValue.toString().toLowerCase().equals(fitnessClass.getType().toLowerCase()))) {
-                                        satisfiesAllFilters = false;
-                                    }
-                                    isType = true;
-                                    type = filterValue;
-                                }
-                            }
-                            if (satisfiesAllFilters) {
-                                filteredList.add(fitnessClass);
-                            }
-                        }
+                        setClassListView(result);
 
-                        int filteredSize = filteredList.size();
-
-                        if (filteredList.isEmpty()) {
-                            if (isDay && isClass && isLocation) { //DCL
-                                emptyText.setText("\n\nThere are no classes for " + className + " on " + day + " at " + location + ". \n\n");
-                            } else if (isDay && !isClass && isLocation && isType) { //DTL
-                                emptyText.setText("\n\nThere are no " + type + " classes on " + day + " at " + location + ". \n\n");
-                            } else if (isDay && isClass && !isType && !isLocation) { //DC
-                                emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
-                            } else if (isDay && !isClass && isType && !isLocation) { //DT
-                                emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
-                            } else if (isDay && !isClass && !isType && isLocation) { //DL
-                                emptyText.setText("\n\nThere are no classes on " + day + " at " + location);
-                            } else if (!isDay && isClass && !isType && isLocation) { //CL
-                                emptyText.setText("\n\nThere are no " + className + " classes at " + location);
-                            } else if (!isDay && !isClass && isType && isLocation) { //TL
-                                emptyText.setText("\n\nThere are no " + type + " classes at " + location);
-                            } else if (isClass && isType && !isLocation && !isDay) {
-                                emptyText.setText(className + " is not a type of " + type + "class.");
-                            } else if (isClass && isType && !isClassInType(className, type)) {
-                                emptyText.setText(className + " is not a type of " + type + " class.");
-                            }
-                            if (isThereAChangeInResults) {
-                                TTS.speak(emptyText.getText().toString());
-                                resultTextView.setText(emptyText.getText().toString());
-                            }
-                        } else if (filteredSize > 5) {
-
-                            String speechLottaResults = result.getFulfillment().getSpeech() + ". I found " + filteredSize + " .";
-
-                            //TTS.speak(speechLottaResults);
-
-                            if (filteredSize >= 10) {
-                                speechForSuggestingFilters = "";
-                                if (!isDay && isClass && !isLocation) {
-                                    speechForSuggestingFilters += "You can filter by day or location.";
-                                } else if (isClass && isLocation && !isDay) {
-                                    speechForSuggestingFilters += "You can filter by day.\n\n";
-                                } else if (isClass && isDay && !isLocation) {
-                                    speechForSuggestingFilters += "You can filter by location.\n\n";
-                                } else if (isType && !isClass && !isDay && !isLocation) {
-                                    speechForSuggestingFilters += "You can filter by class, day, or location.\n\n";
-                                } else if (isType && !isClass && !isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
-                                } else if (isType && !isClass && !isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class or day.\n\n";
-                                } else if (isType && !isClass && isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
-                                } else if (!isType && !isClass && isDay && !isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or location.\n\n";
-                                } else if (!isType && !isClass && isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class name or class type.\n\n";
-                                } else if (isType && !isClass && isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class.\n\n";
-                                } else if (!isType && !isClass && !isDay && isLocation) {
-                                    speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or day.\n\n";
-                                }
-/*
-                                          timer.schedule(new TimerTask() {
-                                              @Override
-                                              public void run() {
-                                                  TTS.delayedSpeak(speechForSuggestingFilters);
-                                              }
-                                          }, 10*1000);
-                                      }
-*/
-                            }
-                            if (isThereAChangeInResults) {
-                                TTS.speak(speechLottaResults + speechForSuggestingFilters);
-                                resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
-                            }
-
-                        } else { /*size of list between 1 and 5 results*/
-                            if (isThereAChangeInResults) {
-                                TTS.speak(result.getFulfillment().getSpeech());
-                                resultTextView.setText(result.getFulfillment().getSpeech());
-                            }
-                        }
-
-                /*
-                Arrays.fill(filteredFitnessClasses,null);
-                fitnessClassListViewAdapter.notifyDataSetChanged();
-*/
-
-                        //listView.setAdapter(fitnessClassListViewAdapter);
                         fitnessClassListViewAdapter.notifyDataSetChanged();
 
                         //listView.invalidateViews();
@@ -436,8 +452,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
-
-                        //resultTextView.setText(filteredList.toString());
 
                     }
                     final Metadata metadata = result.getMetadata();
@@ -462,6 +476,10 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             }
 
         });
+    }
+
+    private void log(AIResponse response) {
+        
     }
 
 
