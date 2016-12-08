@@ -226,32 +226,54 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         checkAudioRecordPermission();
     }
 
+    private void checkForConfirmation(String value) {
+        if (hasClearBeenSaid) { /*Check if the user is confirming a reset request*/
+            if (value.equalsIgnoreCase("yes")) {
+                filters.clear();
+                filteredList.clear();
+                filteredList.addAll(classList); // show all the classes
+                fitnessClassListViewAdapter.notifyDataSetChanged();
+                systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
+                Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
+            } else {
+                systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
+                Log.i("2.1b", "\n\n2.1b Clear was said before, and denied! \n\n");
+            }
+            inSystemClearOrConfirmationMode = true;
+            TTS.speak(systemClearOrConfirmationResponse);
+            resultTextView.setText(systemClearOrConfirmationResponse);
+        }
+    }
 
-    private void checkForReset(Map parameters) {
+    private void checkForResetOrConfirmation(Map parameters) {
         systemClearOrConfirmationResponse = "";
         inSystemClearOrConfirmationMode = false;
         if (!hasClearBeenSaid) { /*Check if the user wants to start over*/
             JsonElement value = (JsonElement) parameters.get("clear");
+            Log.i("1.", "\n\n1. Checking to see if there was a clear... \n\n");
             if (!value.toString().equals("\"\"")) {
+                Log.i("1.1.", "\n\n1.1. The system detected a clear!  \n\n");
                 systemClearOrConfirmationResponse = "Okay, you want to start over? Say Yes or No to confirm.";
                 inSystemClearOrConfirmationMode = true;
                 hasClearBeenSaid = true;
             }
         } else { /*Clear was said before, now we look for confirmation from user*/
             hasClearBeenSaid = false;
+            System.out.println("\n\n2. Clear was said before, expecting a yes or no now.. \n\n");
             JsonElement valueE = (JsonElement) parameters.get("confirmation");
-            if (!valueE.toString().equals("\"\"")) {
+            if (valueE != null && !valueE.toString().equals("\"\"")) {
                 String value = parameters.get("confirmation").toString();
                 value = value.substring(1, value.length() - 1);
-
                 if (value.equalsIgnoreCase("yes")) {
                     filters.clear();
                     filteredList.clear();
                     filteredList.addAll(classList); // show all the classes
                     fitnessClassListViewAdapter.notifyDataSetChanged();
                     systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
+                    Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
                 } else {
                     systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
+                    Log.i("2.1b", "\n\n2.1b Clear was said before, and denied! \n\n");
                 }
                 inSystemClearOrConfirmationMode = true;
             }
@@ -387,53 +409,45 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             @Override
             public void run() {
 
-
                 final Status status = response.getStatus();
 
-
                 final Result result = response.getResult();
-
                 String speech = resultTextView.getText().toString();
-
-
                 resultTextView.setText(speech);
-
-
                 AIOutputContext filterContext = response.getResult().getContext("filters");
-
                 /*
                 * TODO: Switch here to check if the response is for classes or from the help intent
                 * */
 
+                if (filterContext == null) { //No filters were returned back. Could be smallTalk or didn't understand.
 
-                if (filterContext != null) {
+                    //check if it was a smallTalkConfirmation
+                    if (result.getAction().equals("smalltalk.confirmation")) {
+                        checkForConfirmation(result.getResolvedQuery());
+                    }
+                } else {
                     Map parameters = filterContext.getParameters();
-
-                    filters.clear(); //Clear the context object of previous filters.
                     //previousFilters.clear();
-
 
                     System.out.println(parameters.toString());
 
-
-
-
-                    checkForReset(parameters);
-
+                    checkForResetOrConfirmation(parameters);
 
                     if (inSystemClearOrConfirmationMode) { //We are either have reset the filters or ask for confirmation to do so.
+                        Log.i("3.", "\n\n3. In clearOrConfirmation mode.. the no of filters are: " + filters.size() + "\n\n");
                         TTS.speak(systemClearOrConfirmationResponse);
                         resultTextView.setText(systemClearOrConfirmationResponse);
                     } else {  //proceed with filtering
+
+                        Log.i("4.", "\n\n4. In View mode..the no of filters are: " + filters.size() + "\n\n");
+                        filters.clear(); //Clear the context object of previous filters.
 
                         setFiltersFromParameters(parameters);
 
                         System.out.println(filters.toString());
                         isFirstRequest = false;
 
-
                         filteredList.clear();
-
 
                         filterClassesBasedOnFilters();
 
@@ -442,24 +456,18 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                         fitnessClassListViewAdapter.notifyDataSetChanged();
 
-                        //listView.invalidateViews();
-                        //listView.refreshDrawableState();
-
                                 /*
                 * TODO: Switch here to show classes or help intent
                 * */
-
                     }
-
                 }
-
             }
-
         });
     }
 
     /**
      * Call this to log.
+     *
      * @param response
      */
     private void log(AIResponse response) {
@@ -545,6 +553,8 @@ Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
         if (TTS.textToSpeech.isSpeaking()) {
             TTS.textToSpeech.stop();
         }
+        System.out.println("\n\nThe filter context sent is: \n\n");
+        System.out.println(requestExtras.getContexts().get(0).getParameters());
         aiDialog.showAndListen(requestExtras);
     }
 
