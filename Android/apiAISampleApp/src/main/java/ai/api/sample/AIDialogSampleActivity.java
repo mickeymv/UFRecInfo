@@ -387,18 +387,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
 
                 final Status status = response.getStatus();
-                Log.i(TAG, "Status code: " + status.getCode());
-                Log.i(TAG, "Status type: " + status.getErrorType());
+
 
                 final Result result = response.getResult();
-                Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
 
-                Log.i(TAG, "Action: " + result.getAction());
                 String speech = resultTextView.getText().toString();
-                /*
-                speech += "\n\nAgent: " + result.getFulfillment().getSpeech();
-                */
-                Log.i(TAG, "Speech: " + speech);
+
 
                 resultTextView.setText(speech);
 
@@ -454,7 +448,33 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 * */
 
                     }
-                    final Metadata metadata = result.getMetadata();
+
+                }
+
+            }
+
+        });
+    }
+
+    /**
+     * Call this to log.
+     * @param response
+     */
+    private void log(AIResponse response) {
+        /*
+        Log.i(TAG, "Status code: " + status.getCode());
+        Log.i(TAG, "Status type: " + status.getErrorType());
+Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
+
+                Log.i(TAG, "Action: " + result.getAction());
+
+
+
+                speech =  result.getFulfillment().getSpeech();
+
+        Log.i(TAG, "Speech: " + speech);
+
+        final Metadata metadata = result.getMetadata();
                     if (metadata != null)
 
                     {
@@ -471,15 +491,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                             Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
                         }
                     }
-                }
-
-            }
-
-        });
-    }
-
-    private void log(AIResponse response) {
-        
+        */
     }
 
 
