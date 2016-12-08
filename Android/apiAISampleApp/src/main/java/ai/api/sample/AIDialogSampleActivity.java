@@ -114,6 +114,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        TTS.init(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aidialog_sample);
 
@@ -218,12 +219,13 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         }
     }
 
-    /*
+
     @Override
     public void onStart() {
         super.onStart();
+        checkAudioRecordPermission();
     }
-*/
+
 
     private void checkForReset(Map parameters) {
         systemClearOrConfirmationResponse = "";

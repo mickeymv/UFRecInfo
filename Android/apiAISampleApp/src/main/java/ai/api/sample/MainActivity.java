@@ -35,15 +35,13 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TTS.init(getApplicationContext());
+        //TTS.init(getApplicationContext());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        checkAudioRecordPermission();
+        //checkAudioRecordPermission();
     }
 
     @Override
