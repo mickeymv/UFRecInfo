@@ -22,7 +22,6 @@ package ai.api.sample;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,8 +37,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ai.api.AIConfiguration;
 import ai.api.GsonFactory;
@@ -48,7 +45,6 @@ import ai.api.model.AIContext;
 import ai.api.model.AIError;
 import ai.api.model.AIOutputContext;
 import ai.api.model.AIResponse;
-import ai.api.model.Metadata;
 import ai.api.model.Result;
 import ai.api.model.Status;
 import ai.api.ui.AIDialog;
@@ -70,7 +66,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     ArrayList<FitnessClass> classList = new ArrayList<>();
     ArrayList<FitnessClass> filteredList = new ArrayList<>();
 
-    private final String startMessage = "Hi! "; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
+    private final String startMessage = "Hi, I'm Sarah! I'll help you find fitness classes based on class type, day of the week, and or location. For example, you could say, \"Show me cardio classes on Monday\"."; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
     private boolean isThereAChangeInResults = false;
 
@@ -102,9 +98,9 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     String day = "", location = "", className = "", type = "";
 
-    String systemClearOrConfirmationResponse = "";
+    String systemClearOrConfirmationOrHelpResponse = "";
 
-    boolean inSystemClearOrConfirmationMode = false;
+    boolean inSystemClearOrConfirmationOrHelpMode = false;
 
     {
         filterContext.setParameters(filters);
@@ -116,9 +112,9 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     ListView listView;
 
-    ListView filtersListView ;
+    ListView filtersListView;
 
-    private String getStringValueFromJSONElement (JsonElement jsonElement) {
+    private String getStringValueFromJSONElement(JsonElement jsonElement) {
         String filterValue = jsonElement.toString().toLowerCase();
         return filterValue.substring(1, filterValue.length() - 1);
     }
@@ -146,19 +142,16 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startButton.setVisibility(Button.INVISIBLE);
+                startButton.setEnabled(false);
                 isFirstRequest = true;
                 filters.clear(); //Clear the context object of previous filters.
                 filterValues.clear();
                 //previousFilters.clear();
-                startButton.setEnabled(false);
-                startButton.setVisibility(Button.INVISIBLE);
                 resultTextView.setEnabled(true);
                 resultTextView.setVisibility(Button.VISIBLE);
                 resultTextView.setText(startMessage);
                 TTS.speak(startMessage);
-
-                while (TTS.textToSpeech.isSpeaking()) {
-                }
                 speakButton.setVisibility(Button.VISIBLE);
                 speakButton.setEnabled(true);
             }
@@ -253,29 +246,30 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 filteredList.addAll(classList); // show all the classes
                 fitnessClassListViewAdapter.notifyDataSetChanged();
                 filtersListViewAdapter.notifyDataSetChanged();
-                systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
+                systemClearOrConfirmationOrHelpResponse = "Okay, let's start over. Here are all the classes.";
                 Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
             } else {
-                systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
+                systemClearOrConfirmationOrHelpResponse = "Okay, I won't clear your selections.";
                 Log.i("2.1b", "\n\n2.1b Clear was said before, and denied! \n\n");
             }
-            inSystemClearOrConfirmationMode = true;
-            TTS.speak(systemClearOrConfirmationResponse);
-            resultTextView.setText(systemClearOrConfirmationResponse);
+            inSystemClearOrConfirmationOrHelpMode = true;
+            TTS.speak(systemClearOrConfirmationOrHelpResponse);
+            resultTextView.setText(systemClearOrConfirmationOrHelpResponse);
         }
     }
 
-    private void checkForResetOrConfirmation(Map parameters) {
-        systemClearOrConfirmationResponse = "";
-        inSystemClearOrConfirmationMode = false;
+    private boolean checkForResetOrConfirmation(Map parameters) {
+        systemClearOrConfirmationOrHelpResponse = "";
+        inSystemClearOrConfirmationOrHelpMode = false;
         if (!hasClearBeenSaid) { /*Check if the user wants to start over*/
             JsonElement value = (JsonElement) parameters.get("clear");
             Log.i("1.", "\n\n1. Checking to see if there was a clear... \n\n");
             if (!value.toString().equals("\"\"")) {
                 Log.i("1.1.", "\n\n1.1. The system detected a clear!  \n\n");
-                systemClearOrConfirmationResponse = "Okay, you want to start over? Say Yes or No to confirm.";
-                inSystemClearOrConfirmationMode = true;
+                systemClearOrConfirmationOrHelpResponse = "Okay, you want to start over? Say Yes or No to confirm.";
+                inSystemClearOrConfirmationOrHelpMode = true;
                 hasClearBeenSaid = true;
+                return true;
             }
         } else { /*Clear was said before, now we look for confirmation from user*/
             hasClearBeenSaid = false;
@@ -291,15 +285,17 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     filteredList.addAll(classList); // show all the classes
                     fitnessClassListViewAdapter.notifyDataSetChanged();
                     filtersListViewAdapter.notifyDataSetChanged();
-                    systemClearOrConfirmationResponse = "Okay, let's start over. Here are all the classes.";
+                    systemClearOrConfirmationOrHelpResponse = "Okay, let's start over. Here are all the classes.";
                     Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
                 } else {
-                    systemClearOrConfirmationResponse = "Okay, I won't clear your selections.";
+                    systemClearOrConfirmationOrHelpResponse = "Okay, I won't clear your selections.";
                     Log.i("2.1b", "\n\n2.1b Clear was said before, and denied! \n\n");
                 }
-                inSystemClearOrConfirmationMode = true;
+                inSystemClearOrConfirmationOrHelpMode = true;
+                return true;
             }
         }
+        return false;
     }
 
     public void setFiltersFromParameters(Map parameters) {
@@ -427,6 +423,42 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         }
     }
 
+    private boolean checkForHelp(Map parameters) {
+        JsonElement valueE = (JsonElement) parameters.get("help");
+        String help = getStringValueFromJSONElement(valueE);
+        if (valueE != null && !help.equals("")) {
+            systemClearOrConfirmationOrHelpResponse = "Here are some things you could say. \"What are the classes on Monday?\". \"Show me the classes at Southwest Rec.\". \"Show me yoga classes.\". \"List the zumba classes.\" ";
+            inSystemClearOrConfirmationOrHelpMode = true;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkForList(Map parameters) { /*Check to see if the user wants to see a list of classNames/types/locations*/
+        JsonElement valueE = (JsonElement) parameters.get("list");
+        if (valueE != null && !valueE.toString().equals("\"\"")) {
+            String value = parameters.get("list").toString();
+            value = value.substring(1, value.length() - 1);
+            switch (value) {
+                case "day":
+                    systemClearOrConfirmationOrHelpResponse = "Okay, which day would you like to search by? You could say days of the week, like Monday or Tuesday.";
+                    break;
+                case "location":
+                    systemClearOrConfirmationOrHelpResponse = "Okay, here are the locations you can say: Southwest Rec, Student Rec, Broward Pool, Florida Pool, or Maguire Field";
+                    break;
+                case "type":
+                    systemClearOrConfirmationOrHelpResponse = "Okay, you could say any of these categories: Cardio, dance, yoga, swimming, conditioning, or strength.";
+                    break;
+                case "name":
+                    systemClearOrConfirmationOrHelpResponse = "Okay, here are some classes you could search for: Bootcamp, Zumba, Cycling, or Interval Training.";
+                    break;
+            }
+            inSystemClearOrConfirmationOrHelpMode = true;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void onResult(final AIResponse response) {
         runOnUiThread(new Runnable() {
@@ -444,7 +476,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 * */
 
                 if (filterContext == null) { //No filters were returned back. Could be smallTalk or didn't understand.
-
                     //check if it was a smallTalkConfirmation
                     if (result.getAction().equals("smalltalk.confirmation")) {
                         checkForConfirmation(result.getResolvedQuery());
@@ -455,12 +486,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                     System.out.println(parameters.toString());
 
-                    checkForResetOrConfirmation(parameters);
+                    if (checkForResetOrConfirmation(parameters)) ;
+                    else if (checkForHelp(parameters)) ;
+                    else if (checkForList(parameters)) ;
 
-                    if (inSystemClearOrConfirmationMode) { //We are either have reset the filters or ask for confirmation to do so.
-                        Log.i("3.", "\n\n3. In clearOrConfirmation mode.. the no of filters are: " + filters.size() + "\n\n");
-                        TTS.speak(systemClearOrConfirmationResponse);
-                        resultTextView.setText(systemClearOrConfirmationResponse);
+
+                    if (inSystemClearOrConfirmationOrHelpMode) { //We are either have reset the filters or ask for confirmation to do so.
+                        Log.i("3.", "\n\n3. In clearOrConfirmationOrHelpOrListing mode.. the no of filters are: " + filters.size() + "\n\n");
+                        TTS.speak(systemClearOrConfirmationOrHelpResponse);
+                        resultTextView.setText(systemClearOrConfirmationOrHelpResponse);
                     } else {  //proceed with filtering
 
                         Log.i("4.", "\n\n4. In View mode..the no of filters are: " + filters.size() + "\n\n");
