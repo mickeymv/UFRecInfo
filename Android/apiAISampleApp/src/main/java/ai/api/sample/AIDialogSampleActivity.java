@@ -102,6 +102,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     boolean inSystemClearOrConfirmationOrHelpMode = false;
 
+    static int noOfTimesUserIsMisunderstoodInARow = 0;
+
     {
         filterContext.setParameters(filters);
         contexts.add(filterContext);
@@ -115,8 +117,10 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     ListView filtersListView;
 
     private String getStringValueFromJSONElement(JsonElement jsonElement) {
-        String filterValue = jsonElement.toString().toLowerCase();
-        return filterValue.substring(1, filterValue.length() - 1);
+        if (jsonElement != null) {
+            String filterValue = jsonElement.toString().toLowerCase();
+            return filterValue.substring(1, filterValue.length() - 1);
+        } else return "";
     }
 
     @Override
@@ -264,7 +268,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         if (!hasClearBeenSaid) { /*Check if the user wants to start over*/
             JsonElement value = (JsonElement) parameters.get("clear");
             Log.i("1.", "\n\n1. Checking to see if there was a clear... \n\n");
-            if (!value.toString().equals("\"\"")) {
+            if (value != null && !value.toString().equals("\"\"")) {
                 Log.i("1.1.", "\n\n1.1. The system detected a clear!  \n\n");
                 systemClearOrConfirmationOrHelpResponse = "Okay, you want to start over? Say Yes or No to confirm.";
                 inSystemClearOrConfirmationOrHelpMode = true;
@@ -425,9 +429,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     private boolean checkForHelp(Map parameters) {
         JsonElement valueE = (JsonElement) parameters.get("help");
-        String help = getStringValueFromJSONElement(valueE);
-        if (valueE != null && !help.equals("")) {
-            systemClearOrConfirmationOrHelpResponse = "Here are some things you could say. \"What are the classes on Monday?\". \"Show me the classes at Southwest Rec.\". \"Show me yoga classes.\". \"List the zumba classes.\" ";
+        if (valueE != null && !getStringValueFromJSONElement(valueE).equals("")) {
+            systemClearOrConfirmationOrHelpResponse = "Here are some things you could say. \"What are the classes on Monday?\". \"Show me the classes at Southwest Rec.\". \"Show me yoga classes.\". \"List the zumba classes.\". Or say \"reset\" to start over.";
             inSystemClearOrConfirmationOrHelpMode = true;
             return true;
         }
@@ -458,6 +461,11 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         }
         return false;
     }
+
+    /*
+    private boolean ifParametersAreEmpty(Map parameters) {
+    }
+*/
 
     @Override
     public void onResult(final AIResponse response) {
@@ -492,11 +500,22 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
 
                     if (inSystemClearOrConfirmationOrHelpMode) { //We are either have reset the filters or ask for confirmation to do so.
+                        noOfTimesUserIsMisunderstoodInARow = 0;
                         Log.i("3.", "\n\n3. In clearOrConfirmationOrHelpOrListing mode.. the no of filters are: " + filters.size() + "\n\n");
                         TTS.speak(systemClearOrConfirmationOrHelpResponse);
                         resultTextView.setText(systemClearOrConfirmationOrHelpResponse);
-                    } else {  //proceed with filtering
-
+                    } else if (parameters.size() == 0) {//ifParametersAreEmpty(parameters)
+                        noOfTimesUserIsMisunderstoodInARow++;
+                        String speechMisunderstood = "";
+                        if(noOfTimesUserIsMisunderstoodInARow > 1) {
+                            speechMisunderstood = "I'm sorry, I didn't quite get that. You could repeat yourself or ask for help.";
+                        } else {
+                            speechMisunderstood = "I'm sorry, I didn't quite get that.";
+                        }
+                        TTS.speak(speechMisunderstood);
+                        resultTextView.setText(speechMisunderstood);
+                    } else {  //Parameters have filters from API.AI, proceed with filtering.
+                        noOfTimesUserIsMisunderstoodInARow = 0;
                         Log.i("4.", "\n\n4. In View mode..the no of filters are: " + filters.size() + "\n\n");
                         filters.clear(); //Clear the context object of previous filters.
                         filterValues.clear();
