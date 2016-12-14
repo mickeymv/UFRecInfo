@@ -27,15 +27,15 @@ public class FitnessClassAdapter extends RecyclerView.Adapter<FitnessClassViewHo
 
     @Override
     public void onBindViewHolder(FitnessClassViewHolder holder, int position) {
-        holder.className.setText(list.get(position).getName());
+        holder.className.setText(list.get(position).getName()+" (Type:  "+list.get(position).getType()+")");
         holder.classDay.setText(list.get(position).getDay());
-        holder.type.setText(list.get(position).getType());
+       // holder.type.setText(list.get(position).getType());
         holder.location.setText(list.get(position).getVenue());
         holder.type2.setText(list.get(position).getType_2());
-        holder.beginTime.setText(list.get(position).getBegin_Time());
-        holder.endTime.setText(list.get(position).getEnd_Time());
-        holder.duration.setText(list.get(position).getDuration());
-        holder.instructor.setText(list.get(position).getInstructor());
+        holder.beginTime.setText(list.get(position).getBegin_Time() +" - "+ list.get(position).getEnd_Time() +"  ("+list.get(position).getDuration()+")" );
+        //holder.endTime.setText("End Time : "+list.get(position).getEnd_Time());
+        //holder.duration.setText("Duration : "+ list.get(position).getDuration());
+        holder.instructor.setText("Led by "+ list.get(position).getInstructor());
     }
 
     @Override

@@ -29,6 +29,7 @@ import android.text.TextUtils;
 import android.view.Window;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import ai.api.AIConfiguration;
@@ -56,7 +57,7 @@ public class AIDialog {
     private final Handler handler;
 
     public interface AIDialogListener {
-        void onResult(final AIResponse result);
+        void onResult(final AIResponse result) throws FileNotFoundException;
         void onError(final AIError error);
         void onCancelled();
     }
@@ -134,7 +135,11 @@ public class AIDialog {
                 AIDialog.this.close();
 
                 if (resultsListener != null) {
-                    resultsListener.onResult(result);
+                    try {
+                        resultsListener.onResult(result);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

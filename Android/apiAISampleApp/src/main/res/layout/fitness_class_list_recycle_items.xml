@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="388dp"
+        android:layout_height="275dp"
         android:orientation="vertical"
         android:weightSum="4">
 
@@ -57,14 +57,14 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:id="@+id/type"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:textSize="@dimen/text_size"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textStyle="bold" />-->
 
 
 
@@ -92,23 +92,23 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/endTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:id="@+id/endTime"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:textSize="@dimen/text_size"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textStyle="bold" />-->
 
-                <TextView
-                    android:id="@+id/duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:id="@+id/duration"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:textSize="@dimen/text_size"-->
+                    <!--android:textColor="#FFFFFF"-->
+                    <!--android:textStyle="bold" />-->
 
                 <TextView
                     android:id="@+id/instructor"

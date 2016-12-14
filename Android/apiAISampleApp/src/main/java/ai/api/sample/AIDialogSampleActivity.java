@@ -33,8 +33,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,6 +53,7 @@ import ai.api.model.AIContext;
 import ai.api.model.AIError;
 import ai.api.model.AIOutputContext;
 import ai.api.model.AIResponse;
+import ai.api.model.Metadata;
 import ai.api.model.Result;
 import ai.api.model.Status;
 import ai.api.ui.AIDialog;
@@ -84,6 +89,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         private static Timer timer = new Timer();
         */
     private static String speechForSuggestingFilters = "";
+
+    private static int noOfTimesMisunderstood = 0;
 
     FitnessClassAdapter fitnessClassListViewAdapter;
     FilterBubblesAdapter filterBubblesAdapter;
@@ -272,6 +279,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             inSystemClearOrConfirmationOrHelpMode = true;
             TTS.speak(systemClearOrConfirmationOrHelpResponse);
             resultTextView.setText(systemClearOrConfirmationOrHelpResponse);
+            emptyText.setText("");
         }
     }
 
@@ -308,6 +316,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     systemClearOrConfirmationOrHelpResponse = "Okay, I won't clear your selections.";
                     Log.i("2.1b", "\n\n2.1b Clear was said before, and denied! \n\n");
                 }
+                parameters.remove("confirmation");
                 inSystemClearOrConfirmationOrHelpMode = true;
                 return true;
             }
@@ -325,11 +334,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             JsonElement value = (JsonElement) pair.getValue();
             if (!value.toString().equals("\"\"") && !pair.getKey().toString().contains(".original")) {
                 char endChar = pair.getKey().toString().charAt(pair.getKey().toString().length() - 1);
+                String endString = pair.getKey().toString().substring(pair.getKey().toString().length()-1,pair.getKey().toString().length());
                 if (
                             /*Set next new context sent with the request with the parameters
                                 receieved from the last API.AI response
                                  */
-                        endChar == '2' && !isFirstRequest) {
+                        endChar == '2' && !isFirstRequest && endString.equals("2")) {
                             /*Parameter is from previous context ('#' parameter) */
                     keyValue = pair.getKey().toString().substring(0, pair.getKey().toString().length() - 1).toLowerCase();
                     if (keyValue.equals("location")) {
@@ -385,13 +395,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             } else if (!isDay && !isClass && isType && isLocation) { //TL
                 emptyText.setText("\n\nThere are no " + type + " classes at " + location);
             } else if (isClass && isType && !isLocation && !isDay) {
-                emptyText.setText(className + " is not a type of " + type + "class.");
+                emptyText.setText(className + " is not a type of " + type + " class.");
             } else if (isClass && isType && !isClassInType(className, type)) {
                 emptyText.setText(className + " is not a type of " + type + " class.");
             }
             if (isThereAChangeInResults&&emptyText!=null) {
                 TTS.speak(emptyText.getText().toString());
-                resultTextView.setText(emptyText.getText().toString());
+                //resultTextView.setText(emptyText.getText().toString());
+                resultTextView.setText("");
+                //emptyText.setText("");
             }
         } else if (filteredSize > 5 && !(result.getFulfillment().getSpeech()).equals("")) {
 
@@ -429,17 +441,19 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             if (isThereAChangeInResults) {
                 TTS.speak(speechLottaResults + speechForSuggestingFilters);
                 resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
+                emptyText.setText("");
             }
 
         } else if(isThereAChangeInResults && !(result.getFulfillment().getSpeech()).equals("")) {
                 TTS.speak(result.getFulfillment().getSpeech());
                 resultTextView.setText(result.getFulfillment().getSpeech());
-
+            emptyText.setText("");
         }
         else{
             String s = "I'm sorry, I don't understand. You could say help, or you could try again";
             TTS.speak(s);
             resultTextView.setText(s);
+            emptyText.setText("");
         }
     }
 
@@ -448,6 +462,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         if (valueE != null && !getStringValueFromJSONElement(valueE).equals("")) {
             systemClearOrConfirmationOrHelpResponse = "Here are some things you could say. \"What are the classes on Monday?\". \"Show me the classes at Southwest Rec.\". \"Show me yoga classes.\". \"List the zumba classes.\". Or say \"reset\" to start over.";
             inSystemClearOrConfirmationOrHelpMode = true;
+            parameters.remove("help");
             return true;
         }
         return false;
@@ -473,6 +488,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     break;
             }
             inSystemClearOrConfirmationOrHelpMode = true;
+            parameters.remove("list");
             return true;
         }
         return false;
@@ -484,7 +500,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 */
 
     @Override
-    public void onResult(final AIResponse response) {
+    public void onResult(final AIResponse response) throws FileNotFoundException {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -520,6 +536,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         Log.i("3.", "\n\n3. In clearOrConfirmationOrHelpOrListing mode.. the no of filters are: " + filters.size() + "\n\n");
                         TTS.speak(systemClearOrConfirmationOrHelpResponse);
                         resultTextView.setText(systemClearOrConfirmationOrHelpResponse);
+                        emptyText.setText("");
                     } else if (parameters.size() == 0) {//ifParametersAreEmpty(parameters)
                         noOfTimesUserIsMisunderstoodInARow++;
                         String speechMisunderstood = "";
@@ -530,6 +547,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         }
                         TTS.speak(speechMisunderstood);
                         resultTextView.setText(speechMisunderstood);
+                        emptyText.setText("");
+                        noOfTimesMisunderstood++;
                     } else {  //Parameters have filters from API.AI, proceed with filtering.
                         noOfTimesUserIsMisunderstoodInARow = 0;
                         Log.i("4.", "\n\n4. In View mode..the no of filters are: " + filters.size() + "\n\n");
@@ -550,14 +569,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
                         fitnessClassListViewAdapter.notifyDataSetChanged();
                         filterBubblesAdapter.notifyDataSetChanged();
-
-                                /*
+                        //write();
+                        /*
                 * TODO: Switch here to show classes or help intent
                 * */
                     }
                 }
             }
         });
+        log(response);
     }
 
     /**
@@ -565,39 +585,67 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
      *
      * @param response
      */
-    private void log(AIResponse response) {
-        /*
-        Log.i(TAG, "Status code: " + status.getCode());
-        Log.i(TAG, "Status type: " + status.getErrorType());
-Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
+    private void log(AIResponse response) throws FileNotFoundException {
+        //File file = new File(getFilesDir().getAbsolutePath() +"test.csv");
+        File logFile = new File((this
+                .getApplicationContext().getFileStreamPath("TFTMLog.txt")
+                .getPath()));
+        if (!logFile.exists())
+        {
+            try
+            {
+                logFile.createNewFile();
 
-                Log.i(TAG, "Action: " + result.getAction());
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        PrintWriter pw = new PrintWriter(logFile);
+        StringBuilder sb = new StringBuilder();
+        final Status status = response.getStatus();
 
+        final Result result = response.getResult();
+        String speech = resultTextView.getText().toString();
+        sb.append("--------------------\n");
+        sb.append("Status code: " + status.getCode());
+        sb.append('\n');
+        sb.append("Status type: " + status.getErrorType());
+        sb.append('\n');
+        sb.append("Status type: " + result.getResolvedQuery());
+        sb.append('\n');
+        sb.append("Status type: " + result.getAction());
+        sb.append('\n');
+        sb.append("Status type: " + result.getFulfillment().getSpeech());
+        sb.append('\n');
+        sb.append("NoOfTimesMisunderstood: " + noOfTimesMisunderstood);
+        sb.append('\n');
+        sb.append("NoOfTimesMisunderstoodInARow: " + noOfTimesUserIsMisunderstoodInARow);
+        sb.append("\n--------------------");
 
+        //ToDo : Number of times miunderstood
+        //filters, as well as parameters recieved
+        pw.write(sb.toString());
+        pw.close();
+        System.out.println("done");
 
-                speech =  result.getFulfillment().getSpeech();
-
-        Log.i(TAG, "Speech: " + speech);
-
-        final Metadata metadata = result.getMetadata();
-                    if (metadata != null)
-
-                    {
-                        Log.i(TAG, "Intent id: " + metadata.getIntentId());
-                        Log.i(TAG, "Intent name: " + metadata.getIntentName());
-                    }
-
-                    final HashMap<String, JsonElement> params = result.getParameters();
-                    if (params != null && !params.isEmpty())
-
-                    {
-                        Log.i(TAG, "Parameters: ");
-                        for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
-                            Log.i(TAG, String.format("%s: %s", entry.getKey(), entry.getValue().toString()));
-                        }
-                    }
-        */
     }
+
+//    public void write(){
+//        File file = new File(getFilesDir().getAbsolutePath() +"member.txt");
+//        FileWriter writer = null;
+//        try {
+//            writer = new FileWriter(file);
+//            writer.write("test");
+//        } catch (IOException e) {
+//            e.printStackTrace(); // I'd rather declare method with throws IOException and omit this catch.
+//        } finally {
+//            if (writer != null) try { writer.close(); } catch (IOException ignore) {}
+//        }
+//        System.out.printf("File is located at %s%n", file.getAbsolutePath());
+//    }
 
 
     @Override
@@ -608,6 +656,7 @@ Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
                 /*
                 * */
                 resultTextView.setText(error.toString());
+                emptyText.setText("");
             }
         });
     }
@@ -618,6 +667,7 @@ Log.i(TAG, "Resolved query: " + result.getResolvedQuery());
             @Override
             public void run() {
                 resultTextView.setText("");
+                emptyText.setText("");
             }
         });
     }

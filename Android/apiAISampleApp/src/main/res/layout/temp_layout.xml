@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="388dp"
+        android:layout_height="266dp"
         android:orientation="vertical"
         android:weightSum="4">
 
@@ -28,7 +28,7 @@
                 android:layout_gravity="left|bottom"
                 android:background="@android:drawable/screen_background_dark_transparent"
                 android:orientation="vertical"
-                android:layout_weight="2.14">
+                android:layout_weight="0.70">
 
                 <TextView
                     android:id="@+id/className"
