@@ -71,7 +71,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     ArrayList<FitnessClass> filteredList = new ArrayList<>();
     ArrayList<FilterBubbles> filterbubbles = new ArrayList<>();
 
-    private final String startMessage = "Hi, I'm Sarah! I'll help you find fitness classes based on class type, day of the week, and or location. For example, you could say, \"Show me cardio classes on Monday\"."; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
+    private final String startMessage = "Hi, I'm Sarah! I'll help you find fitness classes based on class type, day of the week, and or location. For example, you could say, \"Show me yoga classes on Monday\"."; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
     private boolean isThereAChangeInResults = false;
 
@@ -86,7 +86,6 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     private static String speechForSuggestingFilters = "";
 
     FitnessClassAdapter fitnessClassListViewAdapter;
-    FilterAdapter filtersListViewAdapter;
     FilterBubblesAdapter filterBubblesAdapter;
 
     static String[] conditioning = {"Bootcamp", "Stadium Conditioning"};
@@ -96,7 +95,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     static String[] strength = {"BOSU", "Core", "iBurn", "Total Body", "ViPR Intervals", "ViPR Total Body"};
     static String[] swimming = {"Aqua Zumba", "Coached Swim"};
 
-    private static TextView emptyText;
+    public static TextView emptyText;
 
     private static boolean hasClearBeenSaid = false;
 
@@ -177,12 +176,16 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         fitnessClassRecyclerView.setLayoutManager(mLayoutManager);
 
+        emptyText =(TextView)findViewById(R.id.emptyResultsTextView);
+
+
         //Set for filtersListView
         filterBubblesRecyclerView = (RecyclerView)findViewById(R.id.filterBubblesRecyclerView);
         filterBubblesAdapter = new FilterBubblesAdapter(filterValues);
         filterBubblesRecyclerView.setAdapter(filterBubblesAdapter);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         filterBubblesRecyclerView.setLayoutManager(mLayoutManager1);
+
     }
 
     private void filterClassesBasedOnFilters() {
@@ -259,7 +262,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 filteredList.clear();
                 filteredList.addAll(classList); // show all the classes
                 fitnessClassListViewAdapter.notifyDataSetChanged();
-                filtersListViewAdapter.notifyDataSetChanged();
+                filterBubblesAdapter.notifyDataSetChanged();
                 systemClearOrConfirmationOrHelpResponse = "Okay, let's start over. Here are all the classes.";
                 Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
             } else {
@@ -298,7 +301,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     filteredList.clear();
                     filteredList.addAll(classList); // show all the classes
                     fitnessClassListViewAdapter.notifyDataSetChanged();
-                    filtersListViewAdapter.notifyDataSetChanged();
+                    filterBubblesAdapter.notifyDataSetChanged();
                     systemClearOrConfirmationOrHelpResponse = "Okay, let's start over. Here are all the classes.";
                     Log.i("2.1a", "\n\n2.1a Clear was said before, and confirmed!  \n\n");
                 } else {
@@ -359,6 +362,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         //filterbubbles.clear();
        // filterbubbles.addAll(filterValues);
         //filterbubbles.remove(filterbubbles.size()-1);
+       // filterValues.add(new Filter("."));
 
     }
 
@@ -373,7 +377,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             } else if (isDay && isClass && !isType && !isLocation) { //DC
                 emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
             } else if (isDay && !isClass && isType && !isLocation) { //DT
-                emptyText.setText("\n\nThere are no classes for " + className + " on " + day);
+                emptyText.setText("\n\nThere are no classes for " + type + " on " + day);
             } else if (isDay && !isClass && !isType && isLocation) { //DL
                 emptyText.setText("\n\nThere are no classes on " + day + " at " + location);
             } else if (!isDay && isClass && !isType && isLocation) { //CL
@@ -385,11 +389,12 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
             } else if (isClass && isType && !isClassInType(className, type)) {
                 emptyText.setText(className + " is not a type of " + type + " class.");
             }
-            if (isThereAChangeInResults) {
+            if (isThereAChangeInResults&&emptyText!=null) {
                 TTS.speak(emptyText.getText().toString());
                 resultTextView.setText(emptyText.getText().toString());
             }
-        } else if (filteredSize > 5) {
+        } else if (filteredSize > 5 && !(result.getFulfillment().getSpeech()).equals("")) {
+
 
             String speechLottaResults = result.getFulfillment().getSpeech() + ". I found " + filteredSize + " .";
 
@@ -420,26 +425,21 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                 } else if (!isType && !isClass && !isDay && isLocation) {
                     speechForSuggestingFilters += "\n\nYou can filter by class name, class type, or day.\n\n";
                 }
-/*
-                                          timer.schedule(new TimerTask() {
-                                              @Override
-                                              public void run() {
-                                                  TTS.delayedSpeak(speechForSuggestingFilters);
-                                              }
-                                          }, 10*1000);
-                                      }
-*/
             }
             if (isThereAChangeInResults) {
                 TTS.speak(speechLottaResults + speechForSuggestingFilters);
                 resultTextView.setText(speechLottaResults + speechForSuggestingFilters);
             }
 
-        } else { /*size of list between 1 and 5 results*/
-            if (isThereAChangeInResults) {
+        } else if(isThereAChangeInResults && !(result.getFulfillment().getSpeech()).equals("")) {
                 TTS.speak(result.getFulfillment().getSpeech());
                 resultTextView.setText(result.getFulfillment().getSpeech());
-            }
+
+        }
+        else{
+            String s = "I'm sorry, I don't understand. You could say help, or you could try again";
+            TTS.speak(s);
+            resultTextView.setText(s);
         }
     }
 

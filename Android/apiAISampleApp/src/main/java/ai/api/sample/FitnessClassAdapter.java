@@ -31,6 +31,11 @@ public class FitnessClassAdapter extends RecyclerView.Adapter<FitnessClassViewHo
         holder.classDay.setText(list.get(position).getDay());
         holder.type.setText(list.get(position).getType());
         holder.location.setText(list.get(position).getVenue());
+        holder.type2.setText(list.get(position).getType_2());
+        holder.beginTime.setText(list.get(position).getBegin_Time());
+        holder.endTime.setText(list.get(position).getEnd_Time());
+        holder.duration.setText(list.get(position).getDuration());
+        holder.instructor.setText(list.get(position).getInstructor());
     }
 
     @Override
