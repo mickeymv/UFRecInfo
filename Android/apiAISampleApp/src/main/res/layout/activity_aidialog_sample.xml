@@ -1,58 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
-
-
-    <ListView
-        android:id="@+id/filtersListView"
-        android:layout_width="match_parent"
-        android:layout_gravity="top|center_vertical"
-        android:layout_height="63dp"
-        />
-
-    <ListView
-        android:id="@+id/classListView"
-        android:layout_width="match_parent"
-        android:layout_height="419dp"
-        android:layout_marginTop="50dp"/>
 
     <Button
         android:id="@+id/buttonStart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="504dp"
         android:text="Start Fitness Agent"
         android:onClick="buttonListenOnClick"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/buttonListen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click to Speak"
-        android:onClick="buttonListenOnClick"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="bottom|right"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="407dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/filterBubblesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="57dp" />
+
 
     <TextView
         android:layout_width="254dp"
         android:layout_height="64dp"
-        android:id="@+id/resultTextView"
-        android:layout_gravity="bottom"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
-
-    <TextView
-        android:layout_width="254dp"
-        android:layout_height="87dp"
         android:id="@+id/emptyResultsTextView"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="37dp" />
 
-</FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fitnessClassListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_gravity="bottom"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bar_down"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            android:onClick="buttonListenOnClick"
+            android:background="@drawable/round_button"
+            android:layout_gravity="bottom|right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="243dp"
+            android:layout_height="47dp"
+            android:id="@+id/resultTextView"
+            android:layout_gravity="bottom"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
 

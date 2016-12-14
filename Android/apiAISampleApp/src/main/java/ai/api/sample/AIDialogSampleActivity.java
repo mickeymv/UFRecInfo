@@ -20,9 +20,12 @@ package ai.api.sample;
  ***********************************************************************************************************************/
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +38,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +61,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     private AIDialog aiDialog;
 
     private Button startButton;
-    private Button speakButton;
+    private ImageButton speakButton;
 
     private static boolean isFirstRequest = true;
 
@@ -65,6 +69,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     ArrayList<FitnessClass> classList = new ArrayList<>();
     ArrayList<FitnessClass> filteredList = new ArrayList<>();
+    ArrayList<FilterBubbles> filterbubbles = new ArrayList<>();
 
     private final String startMessage = "Hi, I'm Sarah! I'll help you find fitness classes based on class type, day of the week, and or location. For example, you could say, \"Show me cardio classes on Monday\"."; //Welcome to ‘Talk Fitness To Me’. You can ask to show Group Fitness classes based on day. Which day would you like to see classes for?
 
@@ -82,6 +87,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     FitnessClassAdapter fitnessClassListViewAdapter;
     FilterAdapter filtersListViewAdapter;
+    FilterBubblesAdapter filterBubblesAdapter;
 
     static String[] conditioning = {"Bootcamp", "Stadium Conditioning"};
     static String[] cardio = {"50 50", "Cycle", "Gator Theory", "Interval Training", "Intervals and Yoga", "Kickboxing", "Step", "Zumba Step"};
@@ -116,6 +122,8 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
 
     ListView filtersListView;
 
+    RecyclerView fitnessClassRecyclerView, filterBubblesRecyclerView ;
+
     private String getStringValueFromJSONElement(JsonElement jsonElement) {
         if (jsonElement != null) {
             String filterValue = jsonElement.toString().toLowerCase();
@@ -139,7 +147,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         aiDialog.setResultsListener(this);
 
         startButton = (Button) findViewById(R.id.buttonStart);
-        speakButton = (Button) findViewById(R.id.buttonListen);
+        speakButton = (ImageButton) findViewById(R.id.imageButton1);
         speakButton.setVisibility(Button.INVISIBLE);
         speakButton.setEnabled(false);
 
@@ -163,16 +171,18 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
         loadJSONFromAsset();
 
         //Set for classListView
-        listView = (ListView) this.findViewById(R.id.classListView);
-        fitnessClassListViewAdapter = new FitnessClassAdapter(this, filteredList);
-        listView.setAdapter(fitnessClassListViewAdapter);
-        emptyText = (TextView) findViewById(R.id.emptyResultsTextView);
-        listView.setEmptyView(emptyText);
+        fitnessClassRecyclerView = (RecyclerView) findViewById(R.id.fitnessClassListRecyclerView);
+        fitnessClassListViewAdapter = new FitnessClassAdapter(filteredList);
+        fitnessClassRecyclerView.setAdapter(fitnessClassListViewAdapter);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        fitnessClassRecyclerView.setLayoutManager(mLayoutManager);
 
         //Set for filtersListView
-        filtersListView = (ListView) findViewById(R.id.filtersListView);
-        filtersListViewAdapter = new FilterAdapter(this, filterValues);
-        filtersListView.setAdapter(filtersListViewAdapter);
+        filterBubblesRecyclerView = (RecyclerView)findViewById(R.id.filterBubblesRecyclerView);
+        filterBubblesAdapter = new FilterBubblesAdapter(filterValues);
+        filterBubblesRecyclerView.setAdapter(filterBubblesAdapter);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        filterBubblesRecyclerView.setLayoutManager(mLayoutManager1);
     }
 
     private void filterClassesBasedOnFilters() {
@@ -305,6 +315,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
     public void setFiltersFromParameters(Map parameters) {
         HashMap copyParameters = new HashMap(parameters);
         Iterator it = parameters.entrySet().iterator();
+        LinkedHashSet<FilterBubbles> bubbles = new LinkedHashSet<>();
         String keyValue;
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
@@ -340,10 +351,15 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                     filters.put(pair.getKey(), pair.getValue());
                     filterValues.add(new Filter(getStringValueFromJSONElement((JsonElement) pair.getValue())));
                 }
+                bubbles.add(new FilterBubbles(pair.getValue().toString().replaceAll("^\"|\"$", "")));
             }
             System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
+        //filterbubbles.clear();
+       // filterbubbles.addAll(filterValues);
+        //filterbubbles.remove(filterbubbles.size()-1);
+
     }
 
     private void setClassListView(Result result) {
@@ -533,7 +549,7 @@ public class AIDialogSampleActivity extends BaseActivity implements AIDialog.AID
                         setClassListView(result);
 
                         fitnessClassListViewAdapter.notifyDataSetChanged();
-                        filtersListViewAdapter.notifyDataSetChanged();
+                        filterBubblesAdapter.notifyDataSetChanged();
 
                                 /*
                 * TODO: Switch here to show classes or help intent
